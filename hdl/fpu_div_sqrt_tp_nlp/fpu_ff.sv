@@ -1,4 +1,4 @@
-// Copyright 2017 ETH Zurich and University of Bologna.
+// Copyright 2017, 2018 ETH Zurich and University of Bologna.
 // Copyright and related rights are licensed under the Solderpad Hardware
 // License, Version 0.51 (the “License”); you may not use this file except in
 // compliance with the License.  You may obtain a copy of the License at
@@ -46,7 +46,7 @@ module fpu_ff
   logic [2**NUM_LEVELS-1:0] [NUM_LEVELS-1:0] index_nodes;
 
   logic [LEN-1:0]                            in_flipped;
-   
+
 
   //////////////////////////////////////////////////////////////////////////////
   // generate tree structure                                                  //
