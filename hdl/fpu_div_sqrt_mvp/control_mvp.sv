@@ -2328,7 +2328,8 @@ module control_mvp
 
   logic [C_MANT_FP64+1+4:0]                          Mask_bits_ctl_S;  //For extension
    
-assign Mask_bits_ctl_S =58'h3ff_ffff_ffff_ffff;  
+  assign Mask_bits_ctl_S =58'h3ff_ffff_ffff_ffff;  
+
 
    /////////////////////////////////////////////////////////////////////////////
    // Iteration Instances  with masking control                               //
@@ -2376,28 +2377,28 @@ assign Mask_bits_ctl_S =58'h3ff_ffff_ffff_ffff;
         2'b00:
           begin
             if(Fsm_enable_S)
-               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R1:Iteration_cell_sum_D[0];
+               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R1:Iteration_cell_sum_AMASK_D[0];
             else
                Partial_remainder_DN = Partial_remainder_DP;
           end
         2'b01:
           begin
             if(Fsm_enable_S)
-               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R2:Iteration_cell_sum_D[1];
+               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R2:Iteration_cell_sum_AMASK_D[1];
             else
                Partial_remainder_DN = Partial_remainder_DP;
           end
         2'b10:
           begin
             if(Fsm_enable_S)
-               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R3:Iteration_cell_sum_D[2];
+               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R3:Iteration_cell_sum_AMASK_D[2];
             else
                Partial_remainder_DN = Partial_remainder_DP;
           end
         2'b11:
           begin
             if(Fsm_enable_S)
-               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R4:Iteration_cell_sum_D[3];
+               Partial_remainder_DN = Sqrt_enable_SO?Sqrt_R4:Iteration_cell_sum_AMASK_D[3];
             else
                Partial_remainder_DN = Partial_remainder_DP;
           end
