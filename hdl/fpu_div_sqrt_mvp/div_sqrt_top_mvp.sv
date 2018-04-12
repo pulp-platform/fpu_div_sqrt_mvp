@@ -26,7 +26,10 @@
 // Description:    The top of div and sqrt                                    //
 //                                                                            //
 //                                                                            //
-//                                                                            //
+// Revision Date:  12/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To address some requirements by Stefan and add low power   //
+//                 control for special cases                                  //
 ////////////////////////////////////////////////////////////////////////////////
 
 import defs_div_sqrt_mvp::*;
@@ -81,6 +84,8 @@ module div_sqrt_top_mvp
    logic                                Zero_b_S;
    logic                                NaN_a_S;
    logic                                NaN_b_S;
+   logic                                SNaN_S;
+   logic                                Special_case_SB,Special_case_dly_SB;
 
 
  preprocess_mvp  preprocess_U0
@@ -89,6 +94,7 @@ module div_sqrt_top_mvp
    .Rst_RBI               (Rst_RBI            ),
    .Div_start_SI          (Div_start_SI       ),
    .Sqrt_start_SI         (Sqrt_start_SI      ),
+   .Ready_SI              (Ready_SO           ),
    .Operand_a_DI          (Operand_a_DI       ),
    .Operand_b_DI          (Operand_b_DI       ),
    .RM_SI                 (RM_SI              ),
@@ -105,8 +111,10 @@ module div_sqrt_top_mvp
    .Zero_a_SO             (Zero_a_S           ),
    .Zero_b_SO             (Zero_b_S           ),
    .NaN_a_SO              (NaN_a_S            ),
-   .NaN_b_SO              (NaN_b_S            )
-
+   .NaN_b_SO              (NaN_b_S            ),
+   .SNaN_SO               (SNaN_S             ),
+   .Special_case_SBO      (Special_case_SB    ),
+   .Special_case_dly_SBO  (Special_case_dly_SB)
    );
 
  nrbd_nrsc_mvp   nrbd_nrsc_U0
@@ -117,6 +125,8 @@ module div_sqrt_top_mvp
    .Sqrt_start_SI         (Sqrt_start_SI      ),
    .Start_SI              (Start_S            ),
    .Kill_SI               (Kill_SI            ),
+   .Special_case_SBI      (Special_case_SB    ),
+   .Special_case_dly_SBI  (Special_case_dly_SB),
    .Div_enable_SO         (Div_enable_S       ),
    .Sqrt_enable_SO        (Sqrt_enable_S      ),
    .Precision_ctl_SI      (Precision_ctl_SI   ),
@@ -150,6 +160,7 @@ module div_sqrt_top_mvp
    .Zero_b_SI             (Zero_b_S           ),
    .NaN_a_SI              (NaN_a_S            ),
    .NaN_b_SI              (NaN_b_S            ),
+   .SNaN_SI               (SNaN_S             ),
    .RM_SI                 (RM_dly_S           ),
    .Full_precision_SI     (Full_precision_S   ),
    .FP32_SI               (FP32_S             ),

@@ -24,7 +24,10 @@
 //                                                                            //
 // Description:   non restroring binary  divisior/ square root                //
 //                                                                            //
-//                                                                            //
+// Revision Date:  12/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To address some requirements by Stefan and add low power   //
+//                 control for special cases                                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,6 +42,8 @@ module nrbd_nrsc_mvp
    input logic                                 Sqrt_start_SI,
    input logic                                 Start_SI,
    input logic                                 Kill_SI,
+   input logic                                 Special_case_SBI,
+   input logic                                 Special_case_dly_SBI,
    input logic [C_PC-1:0]                      Precision_ctl_SI,
    input logic [1:0]                           Format_sel_SI,
    input logic [C_MANT_FP64:0]                 Mant_a_DI,
@@ -72,6 +77,8 @@ control_mvp         control_U0
    .Sqrt_start_SI                            (Sqrt_start_SI                   ),
    .Start_SI                                 (Start_SI                        ),
    .Kill_SI                                  (Kill_SI                         ),
+   .Special_case_SBI                         (Special_case_SBI                ),
+   .Special_case_dly_SBI                     (Special_case_dly_SBI            ),
    .Precision_ctl_SI                         (Precision_ctl_SI                ),
    .Format_sel_SI                            (Format_sel_SI                   ),
    .Numerator_DI                             (Mant_a_DI                       ),

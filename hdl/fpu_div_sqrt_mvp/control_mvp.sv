@@ -25,7 +25,10 @@
 //                                                                            //
 // Description:    the control logic  of div and sqrt                         //
 //                                                                            //
-//                                                                            //
+// Revision Date:  12/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To address some requirements by Stefan and add low power   //
+//                 control for special cases                                  //
 //                                                                            //
 //                                                                            //
 //                                                                            //
@@ -42,6 +45,8 @@ module control_mvp
    input logic                                        Sqrt_start_SI,
    input logic                                        Start_SI,
    input logic                                        Kill_SI,
+   input logic                                        Special_case_SBI,
+   input logic                                        Special_case_dly_SBI,
    input logic [C_PC-1:0]                             Precision_ctl_SI,
    input logic [1:0]                                  Format_sel_SI,
    input logic [C_MANT_FP64:0]                        Numerator_DI,
@@ -117,7 +122,7 @@ module control_mvp
           begin
             Format_sel_S<='b0;
           end
-        else if(Start_SI)
+        else if(Start_SI&&Ready_SO)
           begin
             Format_sel_S<=Format_sel_SI;
           end
@@ -146,7 +151,7 @@ module control_mvp
           begin
             Precision_ctl_S<='b0;
           end
-        else if(Start_SI)
+        else if(Start_SI&&Ready_SO)
           begin
             Precision_ctl_S<=Precision_ctl_SI;
           end
@@ -163,7 +168,7 @@ module control_mvp
      logic [5:0]                                     State_Two_iteration_unit_S;
      logic [5:0]                                     State_Four_iteration_unit_S;
 
-    assign State_Two_iteration_unit_S = Precision_ctl_S[C_PC-1:1]+ Precision_ctl_S[0];  //Two iteration units
+    assign State_Two_iteration_unit_S = Precision_ctl_S[C_PC-1:1];  //Two iteration units
     assign State_Four_iteration_unit_S = Precision_ctl_S[C_PC-1:2]+ {(|Precision_ctl_S[1:0])?1:0}; //Four iteration units
 
      always_comb
@@ -251,7 +256,7 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin 
-                         State_ctl_S<=6'h07;  //12+4 more iterations for rounding bits
+                         State_ctl_S<=6'h06;  //11+3 more iterations for rounding bits
                        end
                      else
                        begin
@@ -505,7 +510,7 @@ module control_mvp
           begin
             Div_start_dly_S<=1'b0;
           end
-        else if(Div_start_SI)
+        else if(Div_start_SI&&Ready_SO)
          begin
            Div_start_dly_S<=1'b1;
          end
@@ -523,7 +528,7 @@ module control_mvp
           begin
             Div_enable_SO<=1'b0;
           end
-        else if(Div_start_SI)
+        else if(Div_start_SI&&Ready_SO)
          begin
            Div_enable_SO<=1'b1;
          end
@@ -546,7 +551,7 @@ module control_mvp
           begin
             Sqrt_start_dly_S<=1'b0;
           end
-        else if(Sqrt_start_SI)
+        else if(Sqrt_start_SI&&Ready_SO)
          begin
            Sqrt_start_dly_S<=1'b1;
          end
@@ -563,7 +568,7 @@ module control_mvp
           begin
             Sqrt_enable_SO<=1'b0;
           end
-        else if(Sqrt_start_SI)
+        else if(Sqrt_start_SI&&Ready_SO)
          begin
            Sqrt_enable_SO<=1'b1;
          end
@@ -583,9 +588,9 @@ module control_mvp
    assign   Start_dly_S=Div_start_dly_S |Sqrt_start_dly_S;
 
    logic       Fsm_enable_S;
-   assign      Fsm_enable_S=( (Start_dly_S | (| Crtl_cnt_S)) && (~Kill_SI) );
+   assign      Fsm_enable_S=( (Start_dly_S | (| Crtl_cnt_S)) && (~Kill_SI) && Special_case_dly_SBI);
 
-   logic  Final_state_S;
+   logic                                                        Final_state_S;
    assign     Final_state_S= (Crtl_cnt_S==State_ctl_S);
 
   
@@ -617,11 +622,11 @@ module control_mvp
           begin
             Done_SO<=1'b0;
           end
-        else if(Start_SI)
+        else if(Start_SI&&Ready_SO)
           begin
             Done_SO<=1'b0;
           end
-        else if(Final_state_S)
+        else if(Final_state_S | (~Special_case_dly_SBI))
           begin
             Done_SO<=1'b1;
           end
@@ -641,11 +646,11 @@ module control_mvp
            Ready_SO<=1'b1;
          end
 
-       else if(Start_SI)
+       else if(Start_SI&&Ready_SO)
          begin
            Ready_SO<=1'b0;
          end 
-       else if(Final_state_S | Kill_SI)
+       else if(Final_state_S | Kill_SI | (~Special_case_dly_SBI))
          begin
            Ready_SO<=1'b1;
          end
@@ -2328,8 +2333,7 @@ module control_mvp
 
   logic [C_MANT_FP64+1+4:0]                          Mask_bits_ctl_S;  //For extension
    
-  assign Mask_bits_ctl_S =58'h3ff_ffff_ffff_ffff;  
-
+  assign Mask_bits_ctl_S =58'h3ff_ffff_ffff_ffff;   //It is not needed. The corresponding process is handled the above codes
 
    /////////////////////////////////////////////////////////////////////////////
    // Iteration Instances  with masking control                               //
@@ -2983,7 +2987,7 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'b00:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+4
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+3
                       end
                     6'h0a:
                       begin
@@ -3064,7 +3068,7 @@ module control_mvp
                       end
                     6'h08,6'h07,6'h06:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP32-15:0],{(C_MANT_FP64-C_MANT_FP32+4+16){1'b0}}}; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP32-15:0],{(C_MANT_FP64-C_MANT_FP32+4+15){1'b0}}}; //Precision_ctl_S+1
                       end
                     default:
                       begin

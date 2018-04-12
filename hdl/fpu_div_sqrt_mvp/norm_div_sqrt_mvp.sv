@@ -30,7 +30,9 @@
 //                                                                            //
 //                                                                            //
 //                                                                            //
-//                                                                            //
+// Revision Date:  12/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To address some requirements by Stefan                     //
 //                                                                            //
 //                                                                            //
 //                                                                            //
@@ -54,6 +56,7 @@ module norm_div_sqrt_mvp
    input logic                                  Zero_b_SI,
    input logic                                  NaN_a_SI,
    input logic                                  NaN_b_SI,
+   input logic                                  SNaN_SI,
    input logic [C_RM-1:0]                       RM_SI,
    input logic                                  Full_precision_SI,
    input logic                                  FP32_SI,
@@ -119,6 +122,7 @@ module norm_div_sqrt_mvp
            Exp_res_norm_D='1;
            Mant_forround_D='0;
            Sign_res_D=1'b0;
+           NV_OP_S = SNaN_SI;
          end
 
       else if(NaN_b_SI)   //if b is NaN, return NaN
@@ -130,6 +134,7 @@ module norm_div_sqrt_mvp
           Exp_res_norm_D='1;
           Mant_forround_D='0;
           Sign_res_D=1'b0; 
+          NV_OP_S = SNaN_SI;
         end
 
       else if(Inf_a_SI) 
@@ -143,6 +148,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='1;
               Mant_forround_D='0;
               Sign_res_D=1'b0;
+              NV_OP_S = 1'b1;
             end
           else
             begin
@@ -153,6 +159,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='1;
               Mant_forround_D='0;
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
         end
 
@@ -165,6 +172,7 @@ module norm_div_sqrt_mvp
           Exp_res_norm_D='0;
           Mant_forround_D='0;
           Sign_res_D=Sign_in_DI;
+          NV_OP_S = 1'b0;
         end     
  
      else if(Zero_a_SI) 
@@ -178,6 +186,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='1;
               Mant_forround_D='0;
               Sign_res_D=1'b0;
+              NV_OP_S = 1'b1;
            end
          else
            begin
@@ -188,6 +197,7 @@ module norm_div_sqrt_mvp
              Exp_res_norm_D='0;
              Mant_forround_D='0;
              Sign_res_D=Sign_in_DI;
+             NV_OP_S = 1'b0;
            end
        end
 
@@ -200,6 +210,7 @@ module norm_div_sqrt_mvp
          Exp_res_norm_D='1;
          Mant_forround_D='0;
          Sign_res_D=Sign_in_DI; 
+         NV_OP_S = 1'b0;
        end
 
       else if(Sign_in_DI&&Sqrt_enable_SI)   //sqrt(-a)
@@ -211,6 +222,7 @@ module norm_div_sqrt_mvp
           Exp_res_norm_D='1;
           Mant_forround_D='0;
           Sign_res_D=1'b0; 
+          NV_OP_S = 1'b1;
         end
 
      else if((Exp_in_DI[C_EXP_FP64:0]=='0))
@@ -224,6 +236,7 @@ module norm_div_sqrt_mvp
              Exp_res_norm_D='0;
              Mant_forround_D={Mant_in_DI[4:0],{(C_MANT_FP64-1){1'b0}} };
              Sign_res_D=Sign_in_DI;
+             NV_OP_S = 1'b0;
            end
          else                 // Zero
            begin
@@ -234,6 +247,7 @@ module norm_div_sqrt_mvp
              Exp_res_norm_D='0;  
              Mant_forround_D='0;
              Sign_res_D=Sign_in_DI;
+             NV_OP_S = 1'b0;
            end
         end
 
@@ -246,6 +260,7 @@ module norm_div_sqrt_mvp
           Exp_res_norm_D='0;
           Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64){1'b0}}};
           Sign_res_D=Sign_in_DI;
+          NV_OP_S = 1'b0;
         end
 
       else if(Exp_in_DI[C_EXP_FP64+1])    //minus              //consider format
@@ -259,6 +274,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='0;
               Mant_forround_D='0;
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
           else                    //denormal
             begin
@@ -269,6 +285,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='0;
               Mant_forround_D={Mant_forsticky_D[C_MANT_FP64+4:0]};   //??
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
         end
 
@@ -281,6 +298,7 @@ module norm_div_sqrt_mvp
           Exp_res_norm_D='1;
           Mant_forround_D='0;
           Sign_res_D=Sign_in_DI;
+          NV_OP_S = 1'b0;
         end   
 
       else if( ((Exp_in_DI[C_EXP_FP32-1:0]=='1)&&FP32_SI) | ((Exp_in_DI[C_EXP_FP64-1:0]=='1)&&FP64_SI) |  ((Exp_in_DI[C_EXP_FP16-1:0]=='1)&&FP16_SI) | ((Exp_in_DI[C_EXP_FP16ALT-1:0]=='1)&&FP16ALT_SI) )//255
@@ -294,6 +312,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D=Exp_subOne_D;
               Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+1){1'b0}}};
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
           else if(Mant_in_DI!='0)         //NaN
             begin
@@ -304,6 +323,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='1;
               Mant_forround_D='0;
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
           else                         //infinity
             begin
@@ -314,6 +334,7 @@ module norm_div_sqrt_mvp
               Exp_res_norm_D='1;
               Mant_forround_D='0;
               Sign_res_D=Sign_in_DI;
+              NV_OP_S = 1'b0;
             end
          end
 
@@ -326,6 +347,7 @@ module norm_div_sqrt_mvp
            Exp_res_norm_D=Exp_in_DI[C_EXP_FP64-1:0];
            Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64){1'b0}}};
            Sign_res_D=Sign_in_DI;
+           NV_OP_S = 1'b0;
         end
 
       else                                   //normal numbers with 0.1XX
@@ -337,6 +359,7 @@ module norm_div_sqrt_mvp
            Exp_res_norm_D=Exp_subOne_D;
            Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+1){1'b0}}};
            Sign_res_D=Sign_in_DI;
+           NV_OP_S = 1'b0;
          end
 
      end
@@ -447,7 +470,7 @@ module norm_div_sqrt_mvp
             Result_DO <={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT]};
           end
     end
-assign NV_OP_S = 1'b0;
+
 assign In_Exact_S = (~Full_precision_SI) | Mant_roundUp_S;
 assign Fflags_SO = {NV_OP_S,Exp_OF_S,Exp_UF_S,Div_Zero_S,In_Exact_S};
 

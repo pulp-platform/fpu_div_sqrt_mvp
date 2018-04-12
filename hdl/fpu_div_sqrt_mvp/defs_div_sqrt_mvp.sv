@@ -20,7 +20,7 @@ package defs_div_sqrt_mvp;
    parameter C_PC                  = 6; //Precision Control 
    parameter C_FS                  = 2; //Format Selection
    parameter C_IUNC                = 2; //Iteration Unit Number Control  
-   parameter Iteration_unit_num_S  = 2'b00;
+   parameter Iteration_unit_num_S  = 2'b10;
    // FP64
 
    parameter C_OP_FP64             = 64;

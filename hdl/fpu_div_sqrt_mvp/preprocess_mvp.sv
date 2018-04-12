@@ -24,7 +24,10 @@
 //                                                                            //
 // Description:           decode and data preparation                         //
 //                                                                            //
-//                                                                            //
+// Revision Date:  12/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To address some requirements by Stefan and add low power   //
+//                 control for special cases                                  //
 //                                                                            //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +40,7 @@ module preprocess_mvp
    input logic                   Rst_RBI,
    input logic                   Div_start_SI,
    input logic                   Sqrt_start_SI,
+   input logic                   Ready_SI,
    //Input Operands
    input logic [C_OP_FP64-1:0]   Operand_a_DI,
    input logic [C_OP_FP64-1:0]   Operand_b_DI,
@@ -58,7 +62,10 @@ module preprocess_mvp
    output logic                  Zero_a_SO,
    output logic                  Zero_b_SO,
    output logic                  NaN_a_SO,
-   output logic                  NaN_b_SO
+   output logic                  NaN_b_SO,
+   output logic                  SNaN_SO,
+   output logic                  Special_case_SBO,
+   output logic                  Special_case_dly_SBO
    );
 
    //Hidden Bits
@@ -146,6 +153,15 @@ module preprocess_mvp
    logic               Exp_a_prenorm_Inf_NaN_S;
    logic               Exp_b_prenorm_Inf_NaN_S;
 
+   logic               Mant_a_prenorm_QNaN_S;
+   logic               Mant_a_prenorm_SNaN_S;
+   logic               Mant_b_prenorm_QNaN_S;
+   logic               Mant_b_prenorm_SNaN_S;
+
+   assign Mant_a_prenorm_QNaN_S=Mant_a_NonH_D[C_MANT_FP64-1]&&(~(|Mant_a_NonH_D[C_MANT_FP64-2:0]));
+   assign Mant_a_prenorm_SNaN_S=(~Mant_a_NonH_D[C_MANT_FP64-1])&&((|Mant_a_NonH_D[C_MANT_FP64-2:0]));
+   assign Mant_b_prenorm_QNaN_S=Mant_b_NonH_D[C_MANT_FP64-1]&&(~(|Mant_b_NonH_D[C_MANT_FP64-2:0]));
+   assign Mant_b_prenorm_SNaN_S=(~Mant_b_NonH_D[C_MANT_FP64-1])&&((|Mant_b_NonH_D[C_MANT_FP64-2:0]));
 
      always_comb
        begin
@@ -190,14 +206,15 @@ module preprocess_mvp
    logic               Inf_b_SN,Inf_b_SP;
    logic               NaN_a_SN,NaN_a_SP;
    logic               NaN_b_SN,NaN_b_SP;
+   logic               SNaN_SN,SNaN_SP;
 
-   assign Zero_a_SN = Start_S?(Exp_a_prenorm_zero_S&&Mant_a_prenorm_zero_S):Zero_a_SP;
-   assign Zero_b_SN = Start_S?(Exp_b_prenorm_zero_S&&Mant_b_prenorm_zero_S):Zero_b_SP;
-   assign Inf_a_SN = Start_S?(Exp_a_prenorm_Inf_NaN_S&&Mant_a_prenorm_zero_S):Inf_a_SP;
-   assign Inf_b_SN = Start_S?(Exp_b_prenorm_Inf_NaN_S&&Mant_b_prenorm_zero_S):Inf_b_SP;
-   assign NaN_a_SN = Start_S?(Exp_a_prenorm_Inf_NaN_S&&(~Mant_a_prenorm_zero_S)):NaN_a_SP;
-   assign NaN_b_SN = Start_S?(Exp_b_prenorm_Inf_NaN_S&&(~Mant_b_prenorm_zero_S)):NaN_b_SP;
-
+   assign Zero_a_SN = (Start_S&&Ready_SI)?(Exp_a_prenorm_zero_S&&Mant_a_prenorm_zero_S):Zero_a_SP;
+   assign Zero_b_SN = (Start_S&&Ready_SI)?(Exp_b_prenorm_zero_S&&Mant_b_prenorm_zero_S):Zero_b_SP;
+   assign Inf_a_SN = (Start_S&&Ready_SI)?(Exp_a_prenorm_Inf_NaN_S&&Mant_a_prenorm_zero_S):Inf_a_SP;
+   assign Inf_b_SN = (Start_S&&Ready_SI)?(Exp_b_prenorm_Inf_NaN_S&&Mant_b_prenorm_zero_S):Inf_b_SP;
+   assign NaN_a_SN = (Start_S&&Ready_SI)?(Exp_a_prenorm_Inf_NaN_S&&(~Mant_a_prenorm_zero_S)):NaN_a_SP;
+   assign NaN_b_SN = (Start_S&&Ready_SI)?(Exp_b_prenorm_Inf_NaN_S&&(~Mant_b_prenorm_zero_S)):NaN_b_SP;
+   assign SNaN_SN = (Start_S&&Ready_SI) ? ((Mant_a_prenorm_SNaN_S&&NaN_a_SN) | (Mant_b_prenorm_SNaN_S&&NaN_b_SN)) : SNaN_SP;
     
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -209,6 +226,7 @@ module preprocess_mvp
             Inf_b_SP <='0;
             NaN_a_SP <='0;
             NaN_b_SP <='0;
+            SNaN_SP <= '0;
           end
         else 
          begin 
@@ -218,8 +236,36 @@ module preprocess_mvp
            Zero_b_SP <=Zero_b_SN;
            NaN_a_SP <=NaN_a_SN;
            NaN_b_SP <=NaN_b_SN;
+           SNaN_SP <= SNaN_SN;
          end
       end
+
+   /////////////////////////////////////////////////////////////////////////////
+   // Low power control
+   /////////////////////////////////////////////////////////////////////////////
+
+   assign Special_case_SBO=(~{(Div_start_SI)?(Zero_a_SN | Zero_b_SN |  Inf_a_SN | Inf_b_SN | NaN_a_SN | NaN_b_SN): (Zero_a_SN | Inf_a_SN | NaN_a_SN | Sign_a_D) })&&(Start_S&&Ready_SI);
+
+
+   always_ff @(posedge Clk_CI, negedge Rst_RBI)
+     begin
+       if(~Rst_RBI)
+          begin
+            Special_case_dly_SBO <= '0;
+          end
+       else if((Start_S&&Ready_SI)) 
+         begin
+            Special_case_dly_SBO <= Special_case_SBO;
+         end
+       else if(Special_case_dly_SBO) 
+         begin
+         Special_case_dly_SBO <= 1'b1;
+         end
+      else
+         begin  
+            Special_case_dly_SBO <= '0;
+         end 
+    end  
 
    /////////////////////////////////////////////////////////////////////////////
    // Delay sign for normalization and round                                  //
@@ -234,9 +280,9 @@ module preprocess_mvp
          begin
            Sign_z_DN = '0;
          end
-       else if(Div_start_SI)
+       else if(Div_start_SI&&Ready_SI)
            Sign_z_DN = Sign_a_D ^ Sign_b_D;
-       else if(Sqrt_start_SI)
+       else if(Sqrt_start_SI&&Ready_SI)
            Sign_z_DN = Sign_a_D;
        else
            Sign_z_DN = Sign_z_DP; 
@@ -298,7 +344,7 @@ module preprocess_mvp
 
    logic [C_MANT_FP64:0]            Mant_a_norm_DN,Mant_a_norm_DP;
    
-   assign  Mant_a_norm_DN = (Start_S)?(Mant_a_D<<(Mant_leadingOne_a)):Mant_a_norm_DP;
+   assign  Mant_a_norm_DN = ((Start_S&&Ready_SI))?(Mant_a_D<<(Mant_leadingOne_a)):Mant_a_norm_DP;
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -313,7 +359,7 @@ module preprocess_mvp
      end
 
    logic [C_EXP_FP64:0]            Exp_a_norm_DN,Exp_a_norm_DP;
-   assign  Exp_a_norm_DN = (Start_S)?(Exp_a_D-Mant_leadingOne_a+(|Mant_leadingOne_a)):Exp_a_norm_DP;  //Covering the process of denormal numbers
+   assign  Exp_a_norm_DN = ((Start_S&&Ready_SI))?(Exp_a_D-Mant_leadingOne_a+(|Mant_leadingOne_a)):Exp_a_norm_DP;  //Covering the process of denormal numbers
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)  
      begin
@@ -339,7 +385,7 @@ module preprocess_mvp
 
    logic [C_MANT_FP64:0]            Mant_b_norm_DN,Mant_b_norm_DP;
    
-   assign  Mant_b_norm_DN = (Start_S)?(Mant_b_D<<(Mant_leadingOne_b)):Mant_b_norm_DP;
+   assign  Mant_b_norm_DN = ((Start_S&&Ready_SI))?(Mant_b_D<<(Mant_leadingOne_b)):Mant_b_norm_DP;
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -354,7 +400,7 @@ module preprocess_mvp
      end
 
    logic [C_EXP_FP64:0]            Exp_b_norm_DN,Exp_b_norm_DP;
-   assign  Exp_b_norm_DN = (Start_S)?(Exp_b_D-Mant_leadingOne_b+(|Mant_leadingOne_b)):Exp_b_norm_DP; //Covering the process of denormal numbers
+   assign  Exp_b_norm_DN = ((Start_S&&Ready_SI))?(Exp_b_D-Mant_leadingOne_b+(|Mant_leadingOne_b)):Exp_b_norm_DP; //Covering the process of denormal numbers
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -384,5 +430,6 @@ module preprocess_mvp
    assign Zero_b_SO=Zero_b_SP;
    assign NaN_a_SO=NaN_a_SP;
    assign NaN_b_SO=NaN_b_SP;
+   assign SNaN_SO=SNaN_SP;
 
 endmodule
