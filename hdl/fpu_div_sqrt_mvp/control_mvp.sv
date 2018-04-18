@@ -29,6 +29,10 @@
 //                 Lei Li                                                     //
 //                 To address some requirements by Stefan and add low power   //
 //                 control for special cases                                  //
+// Revision Date:  13/04/2018                                                 //
+//                 Lei Li                                                     //
+//                 To fix some bug found in Control FSM                       //
+//                 when Iteration_unit_num_S  = 2'b10                         //
 //                                                                            //
 //                                                                            //
 //                                                                            //
@@ -301,15 +305,15 @@ module control_mvp
                          begin 
                            State_ctl_S<=6'h04;  
                          end
-                       6'h0f,6'h11,6'h12:
+                       6'h0f,6'h10,6'h11:
                          begin 
                            State_ctl_S<=6'h05;  
                          end
-                       6'h13,6'h14,6'h15:
+                       6'h12,6'h13,6'h14:
                          begin 
                            State_ctl_S<=6'h06;  
                          end
-                       6'h17,6'h18,6'h19:
+                       6'h15,6'h16,6'h17:
                          begin 
                            State_ctl_S<=6'h07;  
                          end
@@ -374,10 +378,6 @@ module control_mvp
                          begin 
                            State_ctl_S<=6'h0d;  
                          end
-                       6'h32,6'h33,6'h34:
-                         begin 
-                           State_ctl_S<=6'h0e;  
-                         end
                        6'h30,6'h31,6'h32:
                          begin 
                            State_ctl_S<=6'h0f;  
@@ -410,10 +410,6 @@ module control_mvp
                        6'h09,6'h0a,6'h0b:
                          begin 
                            State_ctl_S<=6'h03;  
-                         end
-                       6'h0c,6'h0d,6'h0e:
-                         begin 
-                           State_ctl_S<=6'h04;  
                          end
                        default:
                          begin 
@@ -626,7 +622,7 @@ module control_mvp
           begin
             Done_SO<=1'b0;
           end
-        else if(Final_state_S | (~Special_case_dly_SBI))
+        else if(Final_state_S | ((~Special_case_dly_SBI)&&Start_dly_S))
           begin
             Done_SO<=1'b1;
           end
@@ -650,7 +646,7 @@ module control_mvp
          begin
            Ready_SO<=1'b0;
          end 
-       else if(Final_state_S | Kill_SI | (~Special_case_dly_SBI))
+       else if(Final_state_S | Kill_SI | ((~Special_case_dly_SBI)&&Start_dly_S))
          begin
            Ready_SO<=1'b1;
          end
