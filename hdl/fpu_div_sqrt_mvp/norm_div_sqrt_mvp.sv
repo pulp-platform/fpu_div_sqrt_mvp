@@ -234,7 +234,7 @@ module norm_div_sqrt_mvp
              Exp_UF_S=1'b1;
              Mant_res_norm_D={1'b0,Mant_in_DI[C_MANT_FP64+4:5]};
              Exp_res_norm_D='0;
-             Mant_forround_D={Mant_in_DI[4:0],{(C_MANT_FP64-1){1'b0}} };
+             Mant_forround_D={Mant_in_DI[4:0],{(C_MANT_FP64){1'b0}} };
              Sign_res_D=Sign_in_DI;
              NV_OP_S = 1'b0;
            end
@@ -258,7 +258,7 @@ module norm_div_sqrt_mvp
           Exp_UF_S=1'b1;
           Mant_res_norm_D=Mant_in_DI[C_MANT_FP64+4:4];
           Exp_res_norm_D='0;
-          Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64){1'b0}}};
+          Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64+1){1'b0}}};
           Sign_res_D=Sign_in_DI;
           NV_OP_S = 1'b0;
         end
@@ -310,7 +310,7 @@ module norm_div_sqrt_mvp
               Exp_UF_S=1'b0;
               Mant_res_norm_D=Mant_in_DI[C_MANT_FP64+3:3];
               Exp_res_norm_D=Exp_subOne_D;
-              Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+1){1'b0}}};
+              Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+2){1'b0}}};
               Sign_res_D=Sign_in_DI;
               NV_OP_S = 1'b0;
             end
@@ -345,7 +345,7 @@ module norm_div_sqrt_mvp
            Exp_UF_S=1'b0;
            Mant_res_norm_D= Mant_in_DI[C_MANT_FP64+4:4];
            Exp_res_norm_D=Exp_in_DI[C_EXP_FP64-1:0];
-           Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64){1'b0}}};
+           Mant_forround_D={Mant_in_DI[3:0],{(C_MANT_FP64+1){1'b0}}};
            Sign_res_D=Sign_in_DI;
            NV_OP_S = 1'b0;
         end
@@ -357,7 +357,7 @@ module norm_div_sqrt_mvp
            Exp_UF_S=1'b0;
            Mant_res_norm_D=Mant_in_DI[C_MANT_FP64+3:3];
            Exp_res_norm_D=Exp_subOne_D;
-           Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+1){1'b0}}};
+           Mant_forround_D={Mant_in_DI[2:0],{(C_MANT_FP64+2){1'b0}}};
            Sign_res_D=Sign_in_DI;
            NV_OP_S = 1'b0;
          end
