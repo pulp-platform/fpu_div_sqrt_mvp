@@ -378,15 +378,19 @@ module control_mvp
                          begin 
                            State_ctl_S<=6'h0d;  
                          end
-                       6'h30,6'h31,6'h32:
+                       6'h2a,6'h2b,6'h2c:
+                         begin 
+                           State_ctl_S<=6'h0e;  
+                         end
+                       6'h2d,6'h2e,6'h2f:
                          begin 
                            State_ctl_S<=6'h0f;  
                          end
-                       6'h33,6'h34,6'h35:
+                       6'h30,6'h31,6'h32:
                          begin 
                            State_ctl_S<=6'h10;  
                          end
-                       6'h36,6'h37,6'h38:
+                       6'h33,6'h34,6'h35:
                          begin 
                            State_ctl_S<=6'h11;  
                          end
@@ -3364,7 +3368,7 @@ module control_mvp
   integer                                                 C_BIAS_AONE, C_HALF_BIAS;
   always_comb 
     begin  //
-      case (Format_sel_SI)
+      case (Format_sel_S)
         2'b00:
           begin
             C_BIAS_AONE <=C_BIAS_AONE_FP32;
