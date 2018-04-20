@@ -441,7 +441,6 @@ module norm_div_sqrt_mvp
 
   assign Mant_res_round_D = (Mant_renorm_S)?Mant_upperRounded_D[C_MANT_FP64:1]:Mant_upperRounded_D[C_MANT_FP64-1:0]; // including the process of the hidden bit
   assign Exp_res_round_D  = Exp_res_norm_D+Mant_renorm_S;
-  assign Rounded_SO  = Mant_rounded_S;
 
   /////////////////////////////////////////////////////////////////////////////
   //  Output Assignments                                                     //
