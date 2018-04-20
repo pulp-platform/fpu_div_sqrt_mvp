@@ -849,7 +849,7 @@ module control_mvp
 
    always_comb 
     begin  //
-      case (Format_sel_SI)
+      case (Format_sel_S)
         2'b00:
           begin
             Sqrt_quotinent_S = {(~Iteration_cell_sum_AMASK_D[0][C_MANT_FP32+5]),(~Iteration_cell_sum_AMASK_D[1][C_MANT_FP32+5]),(~Iteration_cell_sum_AMASK_D[2][C_MANT_FP32+5]),(~Iteration_cell_sum_AMASK_D[3][C_MANT_FP32+5])};

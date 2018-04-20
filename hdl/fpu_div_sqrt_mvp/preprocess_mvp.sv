@@ -49,10 +49,10 @@ module preprocess_mvp
 
    // to control
    output logic                  Start_SO,
-   output logic [C_EXP_FP64:0]    Exp_a_DO_norm,
-   output logic [C_EXP_FP64:0]    Exp_b_DO_norm,
-   output logic [C_MANT_FP64:0]   Mant_a_DO_norm,
-   output logic [C_MANT_FP64:0]   Mant_b_DO_norm,
+   output logic [C_EXP_FP64:0]   Exp_a_DO_norm,
+   output logic [C_EXP_FP64:0]   Exp_b_DO_norm,
+   output logic [C_MANT_FP64:0]  Mant_a_DO_norm,
+   output logic [C_MANT_FP64:0]  Mant_b_DO_norm,
 
    output logic [C_RM-1:0]       RM_dly_SO, 
 
@@ -309,7 +309,7 @@ module preprocess_mvp
          begin
            RM_DN = '0;
          end
-       else if(Start_S)
+       else if(Start_S&&Ready_SI)
            RM_DN = RM_SI;
        else
            RM_DN = RM_DP;
