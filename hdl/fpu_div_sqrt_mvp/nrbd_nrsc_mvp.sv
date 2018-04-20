@@ -62,8 +62,7 @@ module nrbd_nrsc_mvp
    output logic                                Ready_SO,
    output logic                                Done_SO,
    output logic  [C_MANT_FP64+4:0]             Mant_z_DO,
-   output logic [C_EXP_FP64+1:0]               Exp_z_DO,
-   output logic [3:0]                          Round_bit_DO
+   output logic [C_EXP_FP64+1:0]               Exp_z_DO
     );
   
 
