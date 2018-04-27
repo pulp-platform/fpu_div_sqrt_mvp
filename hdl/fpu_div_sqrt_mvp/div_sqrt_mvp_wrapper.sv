@@ -40,7 +40,7 @@ import defs_div_sqrt_mvp::*;
 
 module div_sqrt_mvp_wrapper
 #(
-   parameter   Prepipeline_depth_S             =        0,  // If you want to add a flip/flop stage before preprocess, set it to 1.
+   parameter   PrePipeline_depth_S             =        0,  // If you want to add a flip/flop stage before preprocess, set it to 1.
    parameter   PostPipeline_depth_S            =        2  // The output delay stages
 )
   (//Input
@@ -224,7 +224,7 @@ module div_sqrt_mvp_wrapper
          assign  Result_DO = Result_dly_S_D;
          assign  Ready_SO  = Ready_dly_S_S;
          assign  Done_SO   = Done_dly_S_S;
-        assign  Fflags_SO  = Fflags_dly_S_S;
+         assign  Fflags_SO  = Fflags_dly_S_S;
        end 
 
    endgenerate
