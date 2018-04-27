@@ -87,7 +87,7 @@ module div_sqrt_mvp_wrapper
 
 
   generate
-    if(PostPipeline_depth_S==1)
+    if(PrePipeline_depth_S==1)
       begin
 
          div_sqrt_top_mvp  div_top_U0  //for RTL

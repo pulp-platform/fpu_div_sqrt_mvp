@@ -148,7 +148,6 @@ module control_mvp
    /////////////////////////////////////////////////////////////////////////////
 
    logic [C_PC-1:0]                                   Precision_ctl_S;
-  // logic                                              Full_precision_S;
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
@@ -173,8 +172,7 @@ module control_mvp
      logic [5:0]                                     State_Four_iteration_unit_S;
 
     assign State_Two_iteration_unit_S = Precision_ctl_S[C_PC-1:1];  //Two iteration units
-    assign State_Four_iteration_unit_S = Precision_ctl_S[C_PC-1:2]+ {(|Precision_ctl_S[1:0])?1:0}; //Four iteration units
-
+    assign State_Four_iteration_unit_S = Precision_ctl_S[C_PC-1:2];  //Four iteration units
      always_comb
        begin
          case(Iteration_unit_num_S)
@@ -249,7 +247,7 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin 
-                         State_ctl_S<=6'h1a;  //53+3 more iterations for rounding bits
+                         State_ctl_S<=6'h1b;  //53+3 more iterations for rounding bits
                        end
                      else
                        begin
@@ -426,7 +424,7 @@ module control_mvp
                      case(Precision_ctl_S)
                        6'h00:
                          begin 
-                           State_ctl_S<=6'h02;  //8+4 more iterations for rounding bits
+                           State_ctl_S<=6'h03;  //8+4 more iterations for rounding bits
                          end
                        6'h06,6'h07,6'h08:
                          begin 
@@ -434,7 +432,7 @@ module control_mvp
                          end
                        default:
                          begin 
-                           State_ctl_S<=6'h02;  //8+4 more iterations for rounding bits
+                           State_ctl_S<=6'h03;  //8+4 more iterations for rounding bits
                          end
                      endcase  
                   end
@@ -461,7 +459,7 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin 
-                         State_ctl_S<=6'h0e;  //53+3 more iterations for rounding bits
+                         State_ctl_S<=6'h0d;  //53+3 more iterations for rounding bits
                        end
                      else
                        begin
@@ -2877,7 +2875,7 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'h00:
                       begin
-                        Mant_result_prenorm_DO = Quotient_DP[C_MANT_FP64+4:0]; //+3
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+3:0],1'b0}; //+3
                       end
                     6'h34:
                       begin
@@ -2977,7 +2975,7 @@ module control_mvp
                       end
                     default:
                       begin
-                        Mant_result_prenorm_DO = Quotient_DP[C_MANT_FP64+4:0]; //+3
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+3:0],1'b0}; //+3
                       end
                   endcase
                 end
@@ -2987,7 +2985,7 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'b00:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+3
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+3:0],{(C_MANT_FP64-C_MANT_FP16+1){1'b0}} }; //+3
                       end
                     6'h0a:
                       begin
@@ -3247,63 +3245,63 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'h00:
                       begin
-                        Mant_result_prenorm_DO = Quotient_DP[C_MANT_FP64+4:0]; //+3
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+3:0],{(1){1'b0}}}; //+3
                       end
                     6'h34:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+4:3],{(3){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+3:0],{(1){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h33,6'h32,6'h31,6'h30:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64:0],{(4){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-1:0],{(5){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h2f,6'h2e,6'h2d,6'h2c:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-4:0],{(4+4){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-5:0],{(9){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h2b,6'h2a,6'h29,6'h28:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-8:0],{(4+8){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-9:0],{(13){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h27,6'h26,6'h25,6'h24:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-12:0],{(4+12){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-13:0],{(17){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h23,6'h22,6'h21,6'h20:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-16:0],{(4+16){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-17:0],{(21){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h1f,6'h1e,6'h1d,6'h1c:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-20:0],{(4+20){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-21:0],{(25){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h1b,6'h1a,6'h19,6'h18:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-24:0],{(4+24){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-25:0],{(29){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h17,6'h16,6'h15,6'h14:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-28:0],{(4+28){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-29:0],{(33){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h13,6'h12,6'h11,6'h10:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-32:0],{(4+32){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-33:0],{(37){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h0f,6'h0e,6'h0d,6'h0c:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-36:0],{(4+36){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-37:0],{(41){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h0b,6'h0a,6'h09,6'h08:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-40:0],{(4+40){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-41:0],{(45){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h07,6'h06:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-44:0],{(4+44){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64-45:0],{(49){1'b0}} }; //Precision_ctl_S+1
                       end
                     default:
                       begin
-                        Mant_result_prenorm_DO = Quotient_DP[C_MANT_FP64+4:0]; //+4
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP64+3:0],{(1){1'b0}}}; //+3
                       end
                   endcase
                 end
@@ -3313,7 +3311,7 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'b00:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+5
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+4
                       end
                     6'h0a,6'h09,6'h08:
                       begin
