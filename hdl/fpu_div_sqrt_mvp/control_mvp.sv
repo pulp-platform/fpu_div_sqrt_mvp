@@ -470,7 +470,7 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin 
-                         State_ctl_S<=6'h03;  //12+4 more iterations for rounding bits
+                         State_ctl_S<=6'h03;  //11+4 more iterations for rounding bits
                        end
                      else
                        begin
@@ -1035,351 +1035,346 @@ module control_mvp
           6'b000000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64+1:C_MANT_FP64];
-              Q_sqrt0={{(C_MANT_FP64+4){1'b0}},Qcnt_one_0};
+              Q_sqrt0={{(C_MANT_FP64+5){1'b0}},Qcnt_one_0};
               Sqrt_Q0=Q_sqrt_com_0;
             end
           6'b000001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-1:C_MANT_FP64-2];
-              Q_sqrt0={{(C_MANT_FP64+3){1'b0}},Qcnt_one_1};
+              Q_sqrt0={{(C_MANT_FP64+5){1'b0}},Qcnt_one_1};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-3:C_MANT_FP64-4];
-              Q_sqrt0={{(C_MANT_FP64+2){1'b0}},Qcnt_one_2};
+              Q_sqrt0={{(C_MANT_FP64+4){1'b0}},Qcnt_one_2};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000011: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-5:C_MANT_FP64-6];
-              Q_sqrt0={{(C_MANT_FP64+1){1'b0}},Qcnt_one_3};
+              Q_sqrt0={{(C_MANT_FP64+3){1'b0}},Qcnt_one_3};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000100: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-7:C_MANT_FP64-8];
-              Q_sqrt0={{(C_MANT_FP64){1'b0}},Qcnt_one_4};
+              Q_sqrt0={{(C_MANT_FP64+2){1'b0}},Qcnt_one_4};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000101: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-9:C_MANT_FP64-10];
-              Q_sqrt0={{(C_MANT_FP64-1){1'b0}},Qcnt_one_5};
+              Q_sqrt0={{(C_MANT_FP64+1){1'b0}},Qcnt_one_5};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000110: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-11:C_MANT_FP64-12];
-              Q_sqrt0={{(C_MANT_FP64-2){1'b0}},Qcnt_one_6};
+              Q_sqrt0={{(C_MANT_FP64){1'b0}},Qcnt_one_6};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b000111: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-13:C_MANT_FP64-14];
-              Q_sqrt0={{(C_MANT_FP64-3){1'b0}},Qcnt_one_7};
+              Q_sqrt0={{(C_MANT_FP64-1){1'b0}},Qcnt_one_7};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-15:C_MANT_FP64-16];
-              Q_sqrt0={{(C_MANT_FP64-4){1'b0}},Qcnt_one_8};
+              Q_sqrt0={{(C_MANT_FP64-2){1'b0}},Qcnt_one_8};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-17:C_MANT_FP64-18];
-              Q_sqrt0={{(C_MANT_FP64-5){1'b0}},Qcnt_one_9};
+              Q_sqrt0={{(C_MANT_FP64-3){1'b0}},Qcnt_one_9};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-19:C_MANT_FP64-20];
-              Q_sqrt0={{(C_MANT_FP64-6){1'b0}},Qcnt_one_10};
+              Q_sqrt0={{(C_MANT_FP64-4){1'b0}},Qcnt_one_10};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001011: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-21:C_MANT_FP64-22];
-              Q_sqrt0={{(C_MANT_FP64-7){1'b0}},Qcnt_one_11};
+              Q_sqrt0={{(C_MANT_FP64-5){1'b0}},Qcnt_one_11};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001100: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-23:C_MANT_FP64-24];
-              Q_sqrt0={{(C_MANT_FP64-8){1'b0}},Qcnt_one_12};
+              Q_sqrt0={{(C_MANT_FP64-6){1'b0}},Qcnt_one_12};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001101: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-25:C_MANT_FP64-26];
-              Q_sqrt0={{(C_MANT_FP64-9){1'b0}},Qcnt_one_13};
+              Q_sqrt0={{(C_MANT_FP64-7){1'b0}},Qcnt_one_13};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001110: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-27:C_MANT_FP64-28];
-              Q_sqrt0={{(C_MANT_FP64-10){1'b0}},Qcnt_one_14};
+              Q_sqrt0={{(C_MANT_FP64-8){1'b0}},Qcnt_one_14};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b001111: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-29:C_MANT_FP64-30];
-              Q_sqrt0={{(C_MANT_FP64-11){1'b0}},Qcnt_one_15};
+              Q_sqrt0={{(C_MANT_FP64-9){1'b0}},Qcnt_one_15};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-31:C_MANT_FP64-32];
-              Q_sqrt0={{(C_MANT_FP64-12){1'b0}},Qcnt_one_16};
+              Q_sqrt0={{(C_MANT_FP64-10){1'b0}},Qcnt_one_16};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-33:C_MANT_FP64-34];
-              Q_sqrt0={{(C_MANT_FP64-13){1'b0}},Qcnt_one_17};
+              Q_sqrt0={{(C_MANT_FP64-11){1'b0}},Qcnt_one_17};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-35:C_MANT_FP64-36];
-              Q_sqrt0={{(C_MANT_FP64-14){1'b0}},Qcnt_one_18};
+              Q_sqrt0={{(C_MANT_FP64-12){1'b0}},Qcnt_one_18};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010011: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-37:C_MANT_FP64-38];
-              Q_sqrt0={{(C_MANT_FP64-15){1'b0}},Qcnt_one_19};
+              Q_sqrt0={{(C_MANT_FP64-13){1'b0}},Qcnt_one_19};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010100: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-39:C_MANT_FP64-40];
-              Q_sqrt0={{(C_MANT_FP64-16){1'b0}},Qcnt_one_20};
+              Q_sqrt0={{(C_MANT_FP64-14){1'b0}},Qcnt_one_20};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010101: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-41:C_MANT_FP64-42];
-              Q_sqrt0={{(C_MANT_FP64-17){1'b0}},Qcnt_one_21};
+              Q_sqrt0={{(C_MANT_FP64-15){1'b0}},Qcnt_one_21};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010110: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-43:C_MANT_FP64-44];
-              Q_sqrt0={{(C_MANT_FP64-18){1'b0}},Qcnt_one_22};
+              Q_sqrt0={{(C_MANT_FP64-16){1'b0}},Qcnt_one_22};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b010111: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-45:C_MANT_FP64-46];
-              Q_sqrt0={{(C_MANT_FP64-19){1'b0}},Qcnt_one_23};
+              Q_sqrt0={{(C_MANT_FP64-17){1'b0}},Qcnt_one_23};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-47:C_MANT_FP64-48];
-              Q_sqrt0={{(C_MANT_FP64-20){1'b0}},Qcnt_one_24};
+              Q_sqrt0={{(C_MANT_FP64-18){1'b0}},Qcnt_one_24};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-49:C_MANT_FP64-50];
-              Q_sqrt0={{(C_MANT_FP64-21){1'b0}},Qcnt_one_25};
+              Q_sqrt0={{(C_MANT_FP64-19){1'b0}},Qcnt_one_25};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-51:C_MANT_FP64-52];
-              Q_sqrt0={{(C_MANT_FP64-22){1'b0}},Qcnt_one_26};
+              Q_sqrt0={{(C_MANT_FP64-20){1'b0}},Qcnt_one_26};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-23){1'b0}},Qcnt_one_27};
+              Q_sqrt0={{(C_MANT_FP64-21){1'b0}},Qcnt_one_27};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-24){1'b0}},Qcnt_one_28};
+              Q_sqrt0={{(C_MANT_FP64-22){1'b0}},Qcnt_one_28};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011101: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-25){1'b0}},Qcnt_one_29};
+              Q_sqrt0={{(C_MANT_FP64-23){1'b0}},Qcnt_one_29};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-26){1'b0}},Qcnt_one_30};
+              Q_sqrt0={{(C_MANT_FP64-24){1'b0}},Qcnt_one_30};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b011111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-27){1'b0}},Qcnt_one_31};
+              Q_sqrt0={{(C_MANT_FP64-25){1'b0}},Qcnt_one_31};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-28){1'b0}},Qcnt_one_32};
+              Q_sqrt0={{(C_MANT_FP64-26){1'b0}},Qcnt_one_32};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100001: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-29){1'b0}},Qcnt_one_33};
+              Q_sqrt0={{(C_MANT_FP64-27){1'b0}},Qcnt_one_33};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100010: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-30){1'b0}},Qcnt_one_34};
+              Q_sqrt0={{(C_MANT_FP64-28){1'b0}},Qcnt_one_34};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-31){1'b0}},Qcnt_one_35};
+              Q_sqrt0={{(C_MANT_FP64-29){1'b0}},Qcnt_one_35};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-32){1'b0}},Qcnt_one_36};
+              Q_sqrt0={{(C_MANT_FP64-30){1'b0}},Qcnt_one_36};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100101: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-33){1'b0}},Qcnt_one_37};
+              Q_sqrt0={{(C_MANT_FP64-31){1'b0}},Qcnt_one_37};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-34){1'b0}},Qcnt_one_38};
+              Q_sqrt0={{(C_MANT_FP64-32){1'b0}},Qcnt_one_38};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b100111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-35){1'b0}},Qcnt_one_39};
+              Q_sqrt0={{(C_MANT_FP64-33){1'b0}},Qcnt_one_39};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-36){1'b0}},Qcnt_one_40};
+              Q_sqrt0={{(C_MANT_FP64-34){1'b0}},Qcnt_one_40};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101001: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-37){1'b0}},Qcnt_one_41};
+              Q_sqrt0={{(C_MANT_FP64-35){1'b0}},Qcnt_one_41};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101010: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-38){1'b0}},Qcnt_one_42};
+              Q_sqrt0={{(C_MANT_FP64-36){1'b0}},Qcnt_one_42};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-39){1'b0}},Qcnt_one_43};
+              Q_sqrt0={{(C_MANT_FP64-37){1'b0}},Qcnt_one_43};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-40){1'b0}},Qcnt_one_44};
+              Q_sqrt0={{(C_MANT_FP64-38){1'b0}},Qcnt_one_44};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101101: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-41){1'b0}},Qcnt_one_45};
+              Q_sqrt0={{(C_MANT_FP64-39){1'b0}},Qcnt_one_45};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-42){1'b0}},Qcnt_one_46};
+              Q_sqrt0={{(C_MANT_FP64-40){1'b0}},Qcnt_one_46};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b101111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-43){1'b0}},Qcnt_one_47};
+              Q_sqrt0={{(C_MANT_FP64-41){1'b0}},Qcnt_one_47};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-44){1'b0}},Qcnt_one_48};
+              Q_sqrt0={{(C_MANT_FP64-42){1'b0}},Qcnt_one_48};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110001: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-45){1'b0}},Qcnt_one_49};
+              Q_sqrt0={{(C_MANT_FP64-43){1'b0}},Qcnt_one_49};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110010: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-46){1'b0}},Qcnt_one_50};
+              Q_sqrt0={{(C_MANT_FP64-44){1'b0}},Qcnt_one_50};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-47){1'b0}},Qcnt_one_51};
+              Q_sqrt0={{(C_MANT_FP64-45){1'b0}},Qcnt_one_51};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-48){1'b0}},Qcnt_one_52};
+              Q_sqrt0={{(C_MANT_FP64-46){1'b0}},Qcnt_one_52};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110101: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-49){1'b0}},Qcnt_one_53};
+              Q_sqrt0={{(C_MANT_FP64-47){1'b0}},Qcnt_one_53};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-50){1'b0}},Qcnt_one_54};
+              Q_sqrt0={{(C_MANT_FP64-48){1'b0}},Qcnt_one_54};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b110111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-51){1'b0}},Qcnt_one_55};
+              Q_sqrt0={{(C_MANT_FP64-49){1'b0}},Qcnt_one_55};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
           6'b111000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-52){1'b0}},Qcnt_one_56};
+              Q_sqrt0={{(C_MANT_FP64-50){1'b0}},Qcnt_one_56};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
             end
-          6'b111001: 
-            begin
-              Sqrt_DI[0]=2'b00;
-              Q_sqrt0=Qcnt_one_56;
-              Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
-            end
+
           default:
             begin
               Sqrt_DI[0]=2'b00;
@@ -1405,305 +1400,306 @@ module control_mvp
           6'b000000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64+1:C_MANT_FP64];
-              Q_sqrt0={{(C_MANT_FP64+4){1'b0}},Qcnt_two_0[1]};
+              Q_sqrt0={{(C_MANT_FP64+5){1'b0}},Qcnt_two_0[1]};
               Sqrt_Q0=Q_sqrt_com_0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-1:C_MANT_FP64-2];
-              Q_sqrt1={{(C_MANT_FP64+3){1'b0}},Qcnt_two_0[1:0]};
+              Q_sqrt1={{(C_MANT_FP64+4){1'b0}},Qcnt_two_0[1:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-3:C_MANT_FP64-4];
-              Q_sqrt0={{(C_MANT_FP64+2){1'b0}},Qcnt_two_1[2:1]};
+              Q_sqrt0={{(C_MANT_FP64+4){1'b0}},Qcnt_two_1[2:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-5:C_MANT_FP64-6];
-              Q_sqrt1={{(C_MANT_FP64+1){1'b0}},Qcnt_two_1[2:0]};
+              Q_sqrt1={{(C_MANT_FP64+3){1'b0}},Qcnt_two_1[2:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-7:C_MANT_FP64-8];
-              Q_sqrt0={{(C_MANT_FP64){1'b0}},Qcnt_two_2[4:1]};
+              Q_sqrt0={{(C_MANT_FP64+2){1'b0}},Qcnt_two_2[4:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-9:C_MANT_FP64-10];
-              Q_sqrt1={{(C_MANT_FP64-1){1'b0}},Qcnt_two_2[4:0]};
+              Q_sqrt1={{(C_MANT_FP64+1){1'b0}},Qcnt_two_2[4:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000011: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-11:C_MANT_FP64-12];
-              Q_sqrt0={{(C_MANT_FP64-2){1'b0}},Qcnt_two_3[6:1]};
+              Q_sqrt0={{(C_MANT_FP64){1'b0}},Qcnt_two_3[6:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-13:C_MANT_FP64-14];
-              Q_sqrt1={{(C_MANT_FP64-3){1'b0}},Qcnt_two_3[6:0]};
+              Q_sqrt1={{(C_MANT_FP64-1){1'b0}},Qcnt_two_3[6:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000100: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-15:C_MANT_FP64-16];
-              Q_sqrt0={{(C_MANT_FP64-3){1'b0}},Qcnt_two_4[8:1]};
+              Q_sqrt0={{(C_MANT_FP64-2){1'b0}},Qcnt_two_4[8:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-17:C_MANT_FP64-18];
-              Q_sqrt1={{(C_MANT_FP64-4){1'b0}},Qcnt_two_4[8:0]};
+              Q_sqrt1={{(C_MANT_FP64-3){1'b0}},Qcnt_two_4[8:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
             6'b000101: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-19:C_MANT_FP64-20];
-              Q_sqrt0={{(C_MANT_FP64-5){1'b0}},Qcnt_two_5[10:1]};
+              Q_sqrt0={{(C_MANT_FP64-4){1'b0}},Qcnt_two_5[10:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-21:C_MANT_FP64-22];
-              Q_sqrt1={{(C_MANT_FP64-6){1'b0}},Qcnt_two_5[10:0]};
+              Q_sqrt1={{(C_MANT_FP64-5){1'b0}},Qcnt_two_5[10:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000110: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-23:C_MANT_FP64-24];
-              Q_sqrt0={{(C_MANT_FP64-7){1'b0}},Qcnt_two_6[12:1]};
+              Q_sqrt0={{(C_MANT_FP64-6){1'b0}},Qcnt_two_6[12:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-25:C_MANT_FP64-26];
-              Q_sqrt1={{(C_MANT_FP64-8){1'b0}},Qcnt_two_6[12:0]};
+              Q_sqrt1={{(C_MANT_FP64-7){1'b0}},Qcnt_two_6[12:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b000111: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-27:C_MANT_FP64-28];
-              Q_sqrt0={{(C_MANT_FP64-9){1'b0}},Qcnt_two_7[14:1]};
+              Q_sqrt0={{(C_MANT_FP64-8){1'b0}},Qcnt_two_7[14:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-29:C_MANT_FP64-30];
-              Q_sqrt1={{(C_MANT_FP64-10){1'b0}},Qcnt_two_7[14:0]};
+              Q_sqrt1={{(C_MANT_FP64-9){1'b0}},Qcnt_two_7[14:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001000: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-31:C_MANT_FP64-32];
-              Q_sqrt0={{(C_MANT_FP64-11){1'b0}},Qcnt_two_8[16:1]};
+              Q_sqrt0={{(C_MANT_FP64-10){1'b0}},Qcnt_two_8[16:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-33:C_MANT_FP64-34];
-              Q_sqrt1={{(C_MANT_FP64-12){1'b0}},Qcnt_two_8[16:0]};
+              Q_sqrt1={{(C_MANT_FP64-11){1'b0}},Qcnt_two_8[16:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001001: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-35:C_MANT_FP64-36];
-              Q_sqrt0={{(C_MANT_FP64-13){1'b0}},Qcnt_two_9[18:1]};
+              Q_sqrt0={{(C_MANT_FP64-12){1'b0}},Qcnt_two_9[18:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-37:C_MANT_FP64-38];
-              Q_sqrt1={{(C_MANT_FP64-14){1'b0}},Qcnt_two_9[18:0]};
+              Q_sqrt1={{(C_MANT_FP64-13){1'b0}},Qcnt_two_9[18:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001010: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-39:C_MANT_FP64-40];
-              Q_sqrt0={{(C_MANT_FP64-15){1'b0}},Qcnt_two_10[20:1]};
+              Q_sqrt0={{(C_MANT_FP64-14){1'b0}},Qcnt_two_10[20:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-41:C_MANT_FP64-42];
-              Q_sqrt1={{(C_MANT_FP64-16){1'b0}},Qcnt_two_10[20:0]};
+              Q_sqrt1={{(C_MANT_FP64-15){1'b0}},Qcnt_two_10[20:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001011: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-43:C_MANT_FP64-44];
-              Q_sqrt0={{(C_MANT_FP64-17){1'b0}},Qcnt_two_11[22:1]};
+              Q_sqrt0={{(C_MANT_FP64-16){1'b0}},Qcnt_two_11[22:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-45:C_MANT_FP64-46];
-              Q_sqrt1={{(C_MANT_FP64-18){1'b0}},Qcnt_two_11[22:0]};
+              Q_sqrt1={{(C_MANT_FP64-17){1'b0}},Qcnt_two_11[22:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001100: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-47:C_MANT_FP64-48];
-              Q_sqrt0={{(C_MANT_FP64-19){1'b0}},Qcnt_two_12[24:1]};
+              Q_sqrt0={{(C_MANT_FP64-18){1'b0}},Qcnt_two_12[24:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-49:C_MANT_FP64-50];
-              Q_sqrt1={{(C_MANT_FP64-20){1'b0}},Qcnt_two_12[24:0]};
+              Q_sqrt1={{(C_MANT_FP64-19){1'b0}},Qcnt_two_12[24:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001101: 
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64-51:C_MANT_FP64-52];
-              Q_sqrt0={{(C_MANT_FP64-21){1'b0}},Qcnt_two_13[26:1]};
+              Q_sqrt0={{(C_MANT_FP64-20){1'b0}},Qcnt_two_13[26:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-22){1'b0}},Qcnt_two_13[26:0]};
+              Q_sqrt1={{(C_MANT_FP64-21){1'b0}},Qcnt_two_13[26:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-23){1'b0}},Qcnt_two_14[28:1]};
+              Q_sqrt0={{(C_MANT_FP64-22){1'b0}},Qcnt_two_14[28:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-24){1'b0}},Qcnt_two_14[28:0]};
+              Q_sqrt1={{(C_MANT_FP64-23){1'b0}},Qcnt_two_14[28:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b001111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-25){1'b0}},Qcnt_two_15[30:1]};
+              Q_sqrt0={{(C_MANT_FP64-24){1'b0}},Qcnt_two_15[30:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-26){1'b0}},Qcnt_two_15[30:0]};
+              Q_sqrt1={{(C_MANT_FP64-25){1'b0}},Qcnt_two_15[30:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-27){1'b0}},Qcnt_two_16[32:1]};
+              Q_sqrt0={{(C_MANT_FP64-26){1'b0}},Qcnt_two_16[32:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-28){1'b0}},Qcnt_two_16[32:0]};
+              Q_sqrt1={{(C_MANT_FP64-27){1'b0}},Qcnt_two_16[32:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010001: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-29){1'b0}},Qcnt_two_17[34:1]};
+              Q_sqrt0={{(C_MANT_FP64-28){1'b0}},Qcnt_two_17[34:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-30){1'b0}},Qcnt_two_17[34:0]};
+              Q_sqrt1={{(C_MANT_FP64-29){1'b0}},Qcnt_two_17[34:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010010: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-31){1'b0}},Qcnt_two_18[36:1]};
+              Q_sqrt0={{(C_MANT_FP64-30){1'b0}},Qcnt_two_18[36:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-32){1'b0}},Qcnt_two_18[36:0]};
+              Q_sqrt1={{(C_MANT_FP64-31){1'b0}},Qcnt_two_18[36:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-33){1'b0}},Qcnt_two_19[38:1]};
+              Q_sqrt0={{(C_MANT_FP64-32){1'b0}},Qcnt_two_19[38:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-34){1'b0}},Qcnt_two_19[38:0]};
+              Q_sqrt1={{(C_MANT_FP64-33){1'b0}},Qcnt_two_19[38:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-35){1'b0}},Qcnt_two_20[40:1]};
+              Q_sqrt0={{(C_MANT_FP64-34){1'b0}},Qcnt_two_20[40:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-36){1'b0}},Qcnt_two_20[40:0]};
+              Q_sqrt1={{(C_MANT_FP64-35){1'b0}},Qcnt_two_20[40:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010101: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-37){1'b0}},Qcnt_two_21[42:1]};
+              Q_sqrt0={{(C_MANT_FP64-36){1'b0}},Qcnt_two_21[42:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-38){1'b0}},Qcnt_two_21[42:0]};
+              Q_sqrt1={{(C_MANT_FP64-37){1'b0}},Qcnt_two_21[42:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010110: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-39){1'b0}},Qcnt_two_22[44:1]};
+              Q_sqrt0={{(C_MANT_FP64-38){1'b0}},Qcnt_two_22[44:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-40){1'b0}},Qcnt_two_22[44:0]};
+              Q_sqrt1={{(C_MANT_FP64-39){1'b0}},Qcnt_two_22[44:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b010111: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-41){1'b0}},Qcnt_two_23[46:1]};
+              Q_sqrt0={{(C_MANT_FP64-40){1'b0}},Qcnt_two_23[46:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-42){1'b0}},Qcnt_two_23[46:0]};
+              Q_sqrt1={{(C_MANT_FP64-41){1'b0}},Qcnt_two_23[46:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b011000: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-43){1'b0}},Qcnt_two_24[48:1]};
+              Q_sqrt0={{(C_MANT_FP64-42){1'b0}},Qcnt_two_24[48:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-44){1'b0}},Qcnt_two_24[48:0]};
+              Q_sqrt1={{(C_MANT_FP64-43){1'b0}},Qcnt_two_24[48:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b011001: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-45){1'b0}},Qcnt_two_25[50:1]};
+              Q_sqrt0={{(C_MANT_FP64-44){1'b0}},Qcnt_two_25[50:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-46){1'b0}},Qcnt_two_25[50:0]};
+              Q_sqrt1={{(C_MANT_FP64-45){1'b0}},Qcnt_two_25[50:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b011010: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-47){1'b0}},Qcnt_two_26[52:1]};
+              Q_sqrt0={{(C_MANT_FP64-46){1'b0}},Qcnt_two_26[52:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-48){1'b0}},Qcnt_two_26[52:0]};
+              Q_sqrt1={{(C_MANT_FP64-47){1'b0}},Qcnt_two_26[52:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b011011: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-49){1'b0}},Qcnt_two_27[54:1]};
+              Q_sqrt0={{(C_MANT_FP64-48){1'b0}},Qcnt_two_27[54:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-50){1'b0}},Qcnt_two_27[54:0]};
+              Q_sqrt1={{(C_MANT_FP64-49){1'b0}},Qcnt_two_27[54:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           6'b011100: 
             begin
               Sqrt_DI[0]=2'b00;
-              Q_sqrt0={{(C_MANT_FP64-51){1'b0}},Qcnt_two_28[56:1]};
+              Q_sqrt0={{(C_MANT_FP64-50){1'b0}},Qcnt_two_28[56:1]};
               Sqrt_Q0=Quotient_DP[0]?Q_sqrt_com_0:Q_sqrt0;
               Sqrt_DI[1]=2'b00;
-              Q_sqrt1={{(C_MANT_FP64-52){1'b0}},Qcnt_two_28[56:0]};
+              Q_sqrt1={{(C_MANT_FP64-51){1'b0}},Qcnt_two_28[56:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
           default:
             begin
               Sqrt_DI[0]=Mant_D_sqrt_Norm[C_MANT_FP64+1:C_MANT_FP64];
-              Q_sqrt0={{(C_MANT_FP64+4){1'b0}},Qcnt_two_0[0]};
+              Q_sqrt0={{(C_MANT_FP64+5){1'b0}},Qcnt_two_0[1]};
               Sqrt_Q0=Q_sqrt_com_0;
               Sqrt_DI[1]=Mant_D_sqrt_Norm[C_MANT_FP64-1:C_MANT_FP64-2];
-              Q_sqrt1={{(C_MANT_FP64+3){1'b0}},Qcnt_two_0[1:0]};
+              Q_sqrt1={{(C_MANT_FP64+4){1'b0}},Qcnt_two_0[1:0]};
               Sqrt_Q1=Sqrt_quotinent_S[3]?Q_sqrt_com_1:Q_sqrt1;
             end
 
         endcase
       end
+
    /////////////////////////////////////////////////////////////////////////////
    // Operands for square root when Iteration_unit_num_S = 2'b01, end       //
    /////////////////////////////////////////////////////////////////////////////
@@ -2318,7 +2314,7 @@ module control_mvp
                                            Iteration_cell_sum_AMASK_D[2][C_MANT_FP64-C_MANT_FP16ALT+1:C_MANT_FP64-C_MANT_FP16+3],{FP16_SO?Sel_b_for_fou_S:Iteration_cell_sum_AMASK_D[2][C_MANT_FP64-C_MANT_FP16+2]},
                                            Iteration_cell_sum_AMASK_D[2][C_MANT_FP64-C_MANT_FP16+1:C_MANT_FP64-C_MANT_FP32+3],{FP32_SO?Sel_b_for_fou_S:Iteration_cell_sum_AMASK_D[2][C_MANT_FP64-C_MANT_FP32+2]},
                                            Iteration_cell_sum_AMASK_D[2][C_MANT_FP64-C_MANT_FP32+1:C_MANT_FP64-C_MANT_FP64+3],FP64_SO&&Sel_b_for_fou_S,3'b0};
-        assign Fou_iteration_cell_div_b_D=Sel_b_for_fou_S?{Denominator_se_DB,4'b0}:{Denominator_se_D,4'b0};
+        assign Fou_iteration_cell_div_b_D=Sel_b_for_fou_S?Denominator_se_format_DB:{Denominator_se_D,4'b0};
         assign Iteration_cell_a_BMASK_D[3]=Sqrt_enable_SO?Sqrt_R3:{Fou_iteration_cell_div_a_D};
         assign Iteration_cell_b_BMASK_D[3]=Sqrt_enable_SO?Sqrt_Q3:{Fou_iteration_cell_div_b_D};
       end
@@ -3311,19 +3307,19 @@ module control_mvp
                   case (Precision_ctl_S)
                     6'b00:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+4
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+5:0],{(C_MANT_FP64-C_MANT_FP16-1){1'b0}} }; //+5
                       end
                     6'h0a,6'h09,6'h08:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16:1],{(C_MANT_FP64-C_MANT_FP16+4+1){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+1:1],{(C_MANT_FP64-C_MANT_FP16+4){1'b0}} }; //Precision_ctl_S+1
                       end
                     6'h07,6'h06:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16-4:0],{(C_MANT_FP64-C_MANT_FP16+4+4){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+1-4:0],{(C_MANT_FP64-C_MANT_FP16+4+3){1'b0}} }; //Precision_ctl_S+1
                       end
                     default : 
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+4:0],{(C_MANT_FP64-C_MANT_FP16){1'b0}} }; //+4
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16+5:0],{(C_MANT_FP64-C_MANT_FP16-1){1'b0}} }; //+5
                       end
                   endcase
                 end
@@ -3338,7 +3334,7 @@ module control_mvp
                       end
                     6'h07,6'h06:
                       begin
-                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16ALT:2],{(C_MANT_FP64-C_MANT_FP16ALT+4+2){1'b0}} }; //Precision_ctl_S+1
+                        Mant_result_prenorm_DO = {Quotient_DP[C_MANT_FP16ALT:0],{(C_MANT_FP64-C_MANT_FP16ALT+4){1'b0}} }; //Precision_ctl_S+1
                       end
                     default : 
                       begin
