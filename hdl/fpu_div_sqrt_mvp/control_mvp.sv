@@ -622,9 +622,16 @@ module control_mvp
           end
         else if(Start_SI&&Ready_SO)
           begin
-            Done_SO<=1'b0;
+            if(~Special_case_SBI) 
+              begin
+                Done_SO<=1'b1;
+              end
+            else
+              begin
+                Done_SO<=1'b0;
+              end
           end
-        else if(Final_state_S | ((~Special_case_dly_SBI)&&Start_dly_S))
+        else if(Final_state_S)
           begin
             Done_SO<=1'b1;
           end
@@ -646,9 +653,16 @@ module control_mvp
 
        else if(Start_SI&&Ready_SO)
          begin
-           Ready_SO<=1'b0;
+            if(~Special_case_SBI) 
+              begin
+                Ready_SO<=1'b1;
+              end
+            else
+              begin
+                Ready_SO<=1'b0;
+              end
          end 
-       else if(Final_state_S | Kill_SI | ((~Special_case_dly_SBI)&&Start_dly_S))
+       else if(Final_state_S | Kill_SI)
          begin
            Ready_SO<=1'b1;
          end
