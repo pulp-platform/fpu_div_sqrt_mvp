@@ -16,8 +16,8 @@
 //                                                                            //
 //                                                                            //
 //                                                                            //
-// Create Date:    20/04/2018                                                 // 
-// Design Name:    FPU                                                        // 
+// Create Date:    20/04/2018                                                 //
+// Design Name:    FPU                                                        //
 // Module Name:    div_sqrt_mvp_wrapper.sv                                    //
 // Project Name:   The shared divisor and square root                         //
 // Language:       SystemVerilog                                              //
@@ -61,13 +61,13 @@ module div_sqrt_mvp_wrapper
 
    //Output Result
    output logic [C_OP_FP64-1:0]           Result_DO,
- 
+
    //Output-Flags
    output logic [4:0]                     Fflags_SO,
-   output logic                           Ready_SO, 
+   output logic                           Ready_SO,
    output logic                           Done_SO
  );
-   
+
 
    logic                                 Div_start_S_S,Sqrt_start_S_S;
    logic [C_OP_FP64-1:0]                 Operand_a_S_D;
@@ -79,10 +79,10 @@ module div_sqrt_mvp_wrapper
    logic [C_FS-1:0]                      Format_sel_S_S;  // Format Selection,
    logic                                 Kill_S_S;
 
-   
+
   logic [C_OP_FP64-1:0]                  Result_D;
   logic                                  Ready_S;
-  logic                                  Done_S; 
+  logic                                  Done_S;
   logic [4:0]                            Fflags_S;
 
 
@@ -110,11 +110,11 @@ module div_sqrt_mvp_wrapper
            .Done_SO               (Done_S)
          );
 
-           always_ff @(posedge Clk_CI, negedge Rst_RBI)   
+           always_ff @(posedge Clk_CI, negedge Rst_RBI)
              begin
                 if(~Rst_RBI)
                   begin
-                    Div_start_S_S<='0; 
+                    Div_start_S_S<='0;
                     Sqrt_start_S_S<=1'b0;
                     Operand_a_S_D<='0;
                     Operand_b_S_D<='0;
@@ -125,7 +125,7 @@ module div_sqrt_mvp_wrapper
                   end
                 else
                   begin
-                    Div_start_S_S<=Div_start_SI; 
+                    Div_start_S_S<=Div_start_SI;
                     Sqrt_start_S_S<=Sqrt_start_SI;
                     Operand_a_S_D<=Operand_a_DI;
                     Operand_b_S_D<=Operand_b_DI;
@@ -134,10 +134,10 @@ module div_sqrt_mvp_wrapper
                     Format_sel_S_S<=Format_sel_SI;
                     Kill_S_S<=Kill_SI;
                   end
-            end 
+            end
      end
 
-     else 
+     else
       begin
           div_sqrt_top_mvp  div_top_U0  //for RTL
           (//Input
@@ -167,23 +167,23 @@ module div_sqrt_mvp_wrapper
   logic                         Ready_dly_S_S;
   logic                         Done_dly_S_S;
   logic [4:0]                   Fflags_dly_S_S;
-   always_ff @(posedge Clk_CI, negedge Rst_RBI)   
+   always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
           begin
-            Result_dly_S_D<='0; 
+            Result_dly_S_D<='0;
             Ready_dly_S_S<=1'b0;
             Done_dly_S_S<=1'b0;
             Fflags_dly_S_S<=1'b0;
           end
         else
           begin
-            Result_dly_S_D<=Result_D; 
+            Result_dly_S_D<=Result_D;
             Ready_dly_S_S<=Ready_S;
             Done_dly_S_S<=Done_S;
             Fflags_dly_S_S<=Fflags_S;
           end
-    end 
+    end
 
    /////////////////////////////////////////////////////////////////////////////
    // Second Stage of Outputs
@@ -191,28 +191,28 @@ module div_sqrt_mvp_wrapper
 
   logic [C_OP_FP64-1:0]         Result_dly_D_D;
   logic                         Ready_dly_D_S;
-  logic                         Done_dly_D_S; 
+  logic                         Done_dly_D_S;
   logic [4:0]                   Fflags_dly_D_S;
   generate
     if(PostPipeline_depth_S==2)
       begin
-        always_ff @(posedge Clk_CI, negedge Rst_RBI)   
+        always_ff @(posedge Clk_CI, negedge Rst_RBI)
           begin
             if(~Rst_RBI)
               begin
-                Result_dly_D_D<='0; 
+                Result_dly_D_D<='0;
                 Ready_dly_D_S<=1'b0;
                 Done_dly_D_S<=1'b0;
                 Fflags_dly_D_S<=1'b0;
               end
            else
              begin
-               Result_dly_D_D<=Result_dly_S_D; 
+               Result_dly_D_D<=Result_dly_S_D;
                Ready_dly_D_S<=Ready_dly_S_S;
                Done_dly_D_S<=Done_dly_S_S;
                Fflags_dly_D_S<=Fflags_dly_S_S;
              end
-          end 
+          end
         assign  Result_DO = Result_dly_D_D;
         assign  Ready_SO  = Ready_dly_D_S;
         assign  Done_SO  = Done_dly_D_S;
@@ -225,8 +225,8 @@ module div_sqrt_mvp_wrapper
          assign  Ready_SO  = Ready_dly_S_S;
          assign  Done_SO   = Done_dly_S_S;
          assign  Fflags_SO  = Fflags_dly_S_S;
-       end 
+       end
 
    endgenerate
- 
-endmodule // 
+
+endmodule //

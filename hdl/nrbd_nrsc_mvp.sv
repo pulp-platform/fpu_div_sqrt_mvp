@@ -16,8 +16,8 @@
 //                                                                            //
 //                                                                            //
 //                                                                            //
-// Create Date:    10/04/2018                                                 // 
-// Design Name:    FPU                                                        // 
+// Create Date:    10/04/2018                                                 //
+// Design Name:    FPU                                                        //
 // Module Name:    nrbd_nrsc_mvp.sv                                           //
 // Project Name:   Private FPU                                                //
 // Language:       SystemVerilog                                              //
@@ -52,7 +52,7 @@ module nrbd_nrsc_mvp
    input logic [C_EXP_FP64:0]                  Exp_b_DI,
   //output
    output logic                                Div_enable_SO,
-   output logic                                Sqrt_enable_SO, 
+   output logic                                Sqrt_enable_SO,
 
    output logic                                Full_precision_SO,
    output logic                                FP32_SO,
@@ -64,10 +64,10 @@ module nrbd_nrsc_mvp
    output logic  [C_MANT_FP64+4:0]             Mant_z_DO,
    output logic [C_EXP_FP64+1:0]               Exp_z_DO
     );
-  
+
 
     logic                                     Div_start_dly_S,Sqrt_start_dly_S;
-    
+
 
 control_mvp         control_U0
 (  .Clk_CI                                   (Clk_CI                          ),
@@ -97,7 +97,7 @@ control_mvp         control_U0
    .Done_SO                                  (Done_SO                         ),
    .Mant_result_prenorm_DO                   (Mant_z_DO                       ),
    .Exp_result_prenorm_DO                    (Exp_z_DO                        )
-);  
+);
 
 
 

@@ -17,8 +17,8 @@
 //                                                                            //
 //                                                                            //
 //                                                                            //
-// Create Date:    09/03/2018                                                 // 
-// Design Name:    FPU                                                        // 
+// Create Date:    09/03/2018                                                 //
+// Design Name:    FPU                                                        //
 // Module Name:    norm_div_sqrt_mvp.sv                                       //
 // Project Name:                                                              //
 // Language:       SystemVerilog                                              //
@@ -86,7 +86,7 @@ module norm_div_sqrt_mvp
    /////////////////////////////////////////////////////////////////////////////
    // Right shift operations for negtive exponents                            //
    /////////////////////////////////////////////////////////////////////////////
-  
+
   logic  [C_EXP_FP64+1:0]                       Exp_Max_RS_FP64_D;
   logic  [C_EXP_FP32+1:0]                       Exp_Max_RS_FP32_D;
   logic  [C_EXP_FP16+1:0]                       Exp_Max_RS_FP16_D;
@@ -99,8 +99,8 @@ module norm_div_sqrt_mvp
   logic  [C_EXP_FP64+1:0]                       Num_RS_D;
   assign Num_RS_D=~Exp_in_DI+1+1;            // How many right shifts(RS) are needed to generate a denormal number? >> is need only when Exp_in_DI is negative
   logic  [C_MANT_FP64:0]                        Mant_RS_D;
-  logic  [C_MANT_FP64+4:0]                      Mant_forsticky_D;  
-  assign  {Mant_RS_D,Mant_forsticky_D} ={Mant_in_DI,{(C_MANT_FP64+1){1'b0}} } >>(Num_RS_D); // 
+  logic  [C_MANT_FP64+4:0]                      Mant_forsticky_D;
+  assign  {Mant_RS_D,Mant_forsticky_D} ={Mant_in_DI,{(C_MANT_FP64+1){1'b0}} } >>(Num_RS_D); //
 //
   logic [C_EXP_FP64+1:0]                        Exp_subOne_D;
   assign Exp_subOne_D = Exp_in_DI -1;
@@ -114,8 +114,8 @@ module norm_div_sqrt_mvp
      begin
 
        if(NaN_a_SI)  //  if a is NaN, return NaN
-         begin        
-           Div_Zero_S=1'b0;   
+         begin
+           Div_Zero_S=1'b0;
            Exp_OF_S=1'b0;
            Exp_UF_S=1'b0;
            Mant_res_norm_D={1'b0,C_MANT_NAN_FP64};
@@ -133,11 +133,11 @@ module norm_div_sqrt_mvp
           Mant_res_norm_D={1'b0,C_MANT_NAN_FP64};
           Exp_res_norm_D='1;
           Mant_forround_D='0;
-          Sign_res_D=1'b0; 
+          Sign_res_D=1'b0;
           NV_OP_S = SNaN_SI;
         end
 
-      else if(Inf_a_SI) 
+      else if(Inf_a_SI)
         begin
           if(Div_enable_SI&&Inf_b_SI)                     //Inf/Inf, retrurn NaN
             begin
@@ -163,7 +163,7 @@ module norm_div_sqrt_mvp
             end
         end
 
-      else if(Div_enable_SI&&Inf_b_SI) 
+      else if(Div_enable_SI&&Inf_b_SI)
         begin
           Div_Zero_S=1'b0;
           Exp_OF_S=1'b1;
@@ -173,9 +173,9 @@ module norm_div_sqrt_mvp
           Mant_forround_D='0;
           Sign_res_D=Sign_in_DI;
           NV_OP_S = 1'b0;
-        end     
- 
-     else if(Zero_a_SI) 
+        end
+
+     else if(Zero_a_SI)
        begin
          if(Div_enable_SI&&Zero_b_SI)
            begin
@@ -209,7 +209,7 @@ module norm_div_sqrt_mvp
          Mant_res_norm_D='0;
          Exp_res_norm_D='1;
          Mant_forround_D='0;
-         Sign_res_D=Sign_in_DI; 
+         Sign_res_D=Sign_in_DI;
          NV_OP_S = 1'b0;
        end
 
@@ -221,7 +221,7 @@ module norm_div_sqrt_mvp
           Mant_res_norm_D={1'b0,C_MANT_NAN_FP64};
           Exp_res_norm_D='1;
           Mant_forround_D='0;
-          Sign_res_D=1'b0; 
+          Sign_res_D=1'b0;
           NV_OP_S = 1'b1;
         end
 
@@ -240,11 +240,11 @@ module norm_div_sqrt_mvp
            end
          else                 // Zero
            begin
-             Div_Zero_S=1'b0;   
+             Div_Zero_S=1'b0;
              Exp_OF_S=1'b0;
              Exp_UF_S=1'b0;
              Mant_res_norm_D='0;
-             Exp_res_norm_D='0;  
+             Exp_res_norm_D='0;
              Mant_forround_D='0;
              Sign_res_D=Sign_in_DI;
              NV_OP_S = 1'b0;
@@ -253,7 +253,7 @@ module norm_div_sqrt_mvp
 
       else if((Exp_in_DI[C_EXP_FP64:0]==C_EXP_ONE_FP64)&&(~Mant_in_DI[C_MANT_FP64+4]))  //denormal
         begin
-          Div_Zero_S=1'b0;   
+          Div_Zero_S=1'b0;
           Exp_OF_S=1'b0;
           Exp_UF_S=1'b1;
           Mant_res_norm_D=Mant_in_DI[C_MANT_FP64+4:4];
@@ -264,9 +264,9 @@ module norm_div_sqrt_mvp
         end
 
       else if(Exp_in_DI[C_EXP_FP64+1])    //minus              //consider format
-        begin          
+        begin
           if(((~Exp_Max_RS_FP32_D[C_EXP_FP32+1])&&FP32_SI) | ((~Exp_Max_RS_FP64_D[C_EXP_FP64+1])&&FP64_SI) | ((~Exp_Max_RS_FP16_D[C_EXP_FP16+1])&&FP16_SI) | ((~Exp_Max_RS_FP16ALT_D[C_EXP_FP16ALT+1])&&FP16ALT_SI) )    //OF EXP<0 after RS
-            begin 
+            begin
               Div_Zero_S=1'b0;
               Exp_OF_S=1'b1;
               Exp_UF_S=1'b0;
@@ -299,7 +299,7 @@ module norm_div_sqrt_mvp
           Mant_forround_D='0;
           Sign_res_D=Sign_in_DI;
           NV_OP_S = 1'b0;
-        end   
+        end
 
       else if( ((Exp_in_DI[C_EXP_FP32-1:0]=='1)&&FP32_SI) | ((Exp_in_DI[C_EXP_FP64-1:0]=='1)&&FP64_SI) |  ((Exp_in_DI[C_EXP_FP16-1:0]=='1)&&FP16_SI) | ((Exp_in_DI[C_EXP_FP16ALT-1:0]=='1)&&FP16ALT_SI) )//255
         begin
@@ -369,7 +369,7 @@ module norm_div_sqrt_mvp
    /////////////////////////////////////////////////////////////////////////////
 
    logic [C_MANT_FP64:0]                   Mant_upper_D;
-   logic [C_MANT_FP64+1:0]                 Mant_upperRounded_D; 
+   logic [C_MANT_FP64+1:0]                 Mant_upperRounded_D;
    logic                                   Mant_roundUp_S;
    logic                                   Mant_rounded_S;
 
@@ -381,13 +381,13 @@ module norm_div_sqrt_mvp
           Mant_lower_D <= Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-1:C_MANT_FP64-C_MANT_FP32-2];
           Mant_sticky_bit_D <= | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-3:0];
         end
-      else if(FP64_SI) 
+      else if(FP64_SI)
         begin
           Mant_upper_D <= Mant_res_norm_D[C_MANT_FP64:0];
           Mant_lower_D <= Mant_forround_D[C_MANT_FP64+4:C_MANT_FP64+3];
           Mant_sticky_bit_D <= | Mant_forround_D[C_MANT_FP64+3:0];
         end
-      else if(FP16_SI) 
+      else if(FP16_SI)
         begin
           Mant_upper_D <= {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP16], {(C_MANT_FP64-C_MANT_FP16){1'b0}} };
           Mant_lower_D <= Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16-1:C_MANT_FP64-C_MANT_FP16-2];
@@ -405,16 +405,16 @@ module norm_div_sqrt_mvp
 
 
 
-   
+
    always_comb //determine whether to round up or not
      begin
         Mant_roundUp_S = 1'b0;
         case (RM_SI)
-          C_RM_NEAREST : 
+          C_RM_NEAREST :
             Mant_roundUp_S = Mant_lower_D[1] && ((Mant_lower_D[0] | Mant_sticky_bit_D )| ( (FP32_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP32]) | (FP64_SI&&Mant_upper_D[0]) | (FP16_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP16]) | (FP16ALT_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP16ALT]) ) );
-          C_RM_TRUNC   : 
+          C_RM_TRUNC   :
             Mant_roundUp_S = 0;
-          C_RM_PLUSINF : 
+          C_RM_PLUSINF :
             Mant_roundUp_S = Mant_rounded_S & ~Sign_in_DI;
           C_RM_MINUSINF:
             Mant_roundUp_S = Mant_rounded_S & Sign_in_DI;

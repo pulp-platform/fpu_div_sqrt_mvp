@@ -17,8 +17,8 @@
 //                                                                            //
 //                                                                            //
 //                                                                            //
-// Create Date:    03/03/2018                                                 // 
-// Design Name:    div_sqrt_top_mvp                                           // 
+// Create Date:    03/03/2018                                                 //
+// Design Name:    div_sqrt_top_mvp                                           //
 // Module Name:    div_sqrt_top_mvp.sv                                        //
 // Project Name:   The shared divisor and square root                         //
 // Language:       SystemVerilog                                              //
@@ -54,13 +54,13 @@ module div_sqrt_top_mvp
 
    //Output Result
    output logic [C_OP_FP64-1:0]           Result_DO,
- 
+
    //Output-Flags
    output logic [4:0]                     Fflags_SO,
-   output logic                           Ready_SO, 
+   output logic                           Ready_SO,
    output logic                           Done_SO
  );
-   
+
 
 
 
@@ -104,7 +104,7 @@ module div_sqrt_top_mvp
    .Exp_b_DO_norm         (Exp_b_D            ),
    .Mant_a_DO_norm        (Mant_a_D           ),
    .Mant_b_DO_norm        (Mant_b_D           ),
-   .RM_dly_SO             (RM_dly_S           ),  
+   .RM_dly_SO             (RM_dly_S           ),
    .Sign_z_DO             (Sign_z_D           ),
    .Inf_a_SO              (Inf_a_S            ),
    .Inf_b_SO              (Inf_b_S            ),
@@ -152,7 +152,7 @@ module div_sqrt_top_mvp
    .Mant_in_DI            (Mant_z_D           ),
    .Exp_in_DI             (Exp_z_D            ),
    .Sign_in_DI            (Sign_z_D           ),
-   .Div_enable_SI         (Div_enable_S       ), 
+   .Div_enable_SI         (Div_enable_S       ),
    .Sqrt_enable_SI        (Sqrt_enable_S      ),
    .Inf_a_SI              (Inf_a_S            ),
    .Inf_b_SI              (Inf_b_S            ),

@@ -54,7 +54,7 @@ module preprocess_mvp
    output logic [C_MANT_FP64:0]  Mant_a_DO_norm,
    output logic [C_MANT_FP64:0]  Mant_b_DO_norm,
 
-   output logic [C_RM-1:0]       RM_dly_SO, 
+   output logic [C_RM-1:0]       RM_dly_SO,
 
    output logic                  Sign_z_DO,
    output logic                  Inf_a_SO,
@@ -123,17 +123,17 @@ module preprocess_mvp
                Exp_b_D  = {3'h0, Operand_b_DI[C_OP_FP16ALT-2:C_MANT_FP16ALT]};
                Mant_a_NonH_D = {Operand_a_DI[C_MANT_FP16ALT-1:0],45'h0};
                Mant_b_NonH_D = {Operand_b_DI[C_MANT_FP16ALT-1:0],45'h0};
-             end 
+             end
            endcase
        end
 
 
    assign Mant_a_D = {Hb_a_D,Mant_a_NonH_D};
    assign Mant_b_D = {Hb_b_D,Mant_b_NonH_D};
-   
+
    assign Hb_a_D = | Exp_a_D; // hidden bit
    assign Hb_b_D = | Exp_b_D; // hidden bit
-   
+
    assign Start_S= Div_start_SI | Sqrt_start_SI;
 
 
@@ -141,7 +141,7 @@ module preprocess_mvp
    /////////////////////////////////////////////////////////////////////////////
    // preliminary checks for infinite/zero/NaN operands                       //
    /////////////////////////////////////////////////////////////////////////////
-   
+
    logic               Mant_a_prenorm_zero_S;
    logic               Mant_b_prenorm_zero_S;
 
@@ -193,7 +193,7 @@ module preprocess_mvp
                Mant_b_prenorm_zero_S=(Operand_b_DI[C_MANT_FP16ALT-1:0] == C_MANT_ZERO_FP16ALT);
                Exp_a_prenorm_Inf_NaN_S=(Operand_a_DI[C_OP_FP16ALT-2:C_MANT_FP16ALT] == C_EXP_INF_FP16ALT);
                Exp_b_prenorm_Inf_NaN_S=(Operand_b_DI[C_OP_FP16ALT-2:C_MANT_FP16ALT] == C_EXP_INF_FP16ALT);
-             end     
+             end
            endcase
        end
 
@@ -274,7 +274,7 @@ module preprocess_mvp
    logic                   Sign_z_DN;
    logic                   Sign_z_DP;
 
-   always_comb   
+   always_comb
      begin
        if(~Rst_RBI)
          begin
@@ -285,8 +285,8 @@ module preprocess_mvp
        else if(Sqrt_start_SI&&Ready_SI)
            Sign_z_DN = Sign_a_D;
        else
-           Sign_z_DN = Sign_z_DP; 
-    end 
+           Sign_z_DN = Sign_z_DP;
+    end
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -295,15 +295,15 @@ module preprocess_mvp
             Sign_z_DP <= '0;
           end
        else
-         begin  
+         begin
             Sign_z_DP <= Sign_z_DN;
-         end 
-    end  
+         end
+    end
 
    logic [C_RM-1:0]                  RM_DN;
    logic [C_RM-1:0]                  RM_DP;
 
-   always_comb   
+   always_comb
      begin
        if(~Rst_RBI)
          begin
@@ -313,7 +313,7 @@ module preprocess_mvp
            RM_DN = RM_SI;
        else
            RM_DN = RM_DP;
-    end 
+    end
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
@@ -322,10 +322,10 @@ module preprocess_mvp
             RM_DP <= '0;
           end
        else
-         begin  
+         begin
             RM_DP <= RM_DN;
-         end 
-    end 
+         end
+    end
    assign RM_dly_SO = RM_DP;
 
    logic [5:0]                  Mant_leadingOne_a, Mant_leadingOne_b;
@@ -339,11 +339,11 @@ module preprocess_mvp
      .in_i        ( Mant_a_D          ),
      .first_one_o ( Mant_leadingOne_a ),
      .no_ones_o   ( Mant_zero_S_a     )
-   ); 
- 
+   );
+
 
    logic [C_MANT_FP64:0]            Mant_a_norm_DN,Mant_a_norm_DP;
-   
+
    assign  Mant_a_norm_DN = ((Start_S&&Ready_SI))?(Mant_a_D<<(Mant_leadingOne_a)):Mant_a_norm_DP;
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
@@ -361,13 +361,13 @@ module preprocess_mvp
    logic [C_EXP_FP64:0]            Exp_a_norm_DN,Exp_a_norm_DP;
    assign  Exp_a_norm_DN = ((Start_S&&Ready_SI))?(Exp_a_D-Mant_leadingOne_a+(|Mant_leadingOne_a)):Exp_a_norm_DP;  //Covering the process of denormal numbers
 
-   always_ff @(posedge Clk_CI, negedge Rst_RBI)  
+   always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
           begin
             Exp_a_norm_DP <= '0;
           end
-        else  
+        else
           begin
             Exp_a_norm_DP<=Exp_a_norm_DN;
           end
@@ -381,10 +381,10 @@ module preprocess_mvp
      .in_i        ( Mant_b_D          ),
      .first_one_o ( Mant_leadingOne_b ),
      .no_ones_o   ( Mant_zero_S_b     )
-   ); 
+   );
 
    logic [C_MANT_FP64:0]            Mant_b_norm_DN,Mant_b_norm_DP;
-   
+
    assign  Mant_b_norm_DN = ((Start_S&&Ready_SI))?(Mant_b_D<<(Mant_leadingOne_b)):Mant_b_norm_DP;
 
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
