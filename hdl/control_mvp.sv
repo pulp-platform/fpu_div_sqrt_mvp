@@ -520,26 +520,19 @@ module control_mvp
 
    assign Div_start_dly_SO=Div_start_dly_S;
 
-   always_ff @(posedge Clk_CI, negedge Rst_RBI)   //  generate Div_enable_SO signal
-     begin
-        if(~Rst_RBI)
-          begin
-            Div_enable_SO<=1'b0;
-          end
-        else if(Div_start_SI&&Ready_SO)
-         begin
-           Div_enable_SO<=1'b1;
-         end
-         else if(Done_SO)
-          begin
-            Div_enable_SO<=1'b0;
-          end
-       else
-          begin
-            Div_enable_SO<=Div_enable_SO;
-          end
-    end
-
+  always_ff @(posedge Clk_CI, negedge Rst_RBI) begin  //  generate Div_enable_SO signal
+    if(~Rst_RBI)
+      Div_enable_SO<=1'b0;
+    // Synchronous reset with Flush
+    else if (Kill_SI)
+      Div_enable_SO <= 1'b0;
+    else if(Div_start_SI&&Ready_SO)
+      Div_enable_SO<=1'b1;
+    else if(Done_SO)
+      Div_enable_SO<=1'b0;
+    else
+      Div_enable_SO<=Div_enable_SO;
+  end
 
    logic                                                Sqrt_start_dly_S;
 
@@ -560,25 +553,18 @@ module control_mvp
       end
     assign Sqrt_start_dly_SO=Sqrt_start_dly_S;
 
-   always_ff @(posedge Clk_CI, negedge Rst_RBI)   //  generate Sqrt_enable_SO signal
-     begin
-        if(~Rst_RBI)
-          begin
-            Sqrt_enable_SO<=1'b0;
-          end
-        else if(Sqrt_start_SI&&Ready_SO)
-         begin
-           Sqrt_enable_SO<=1'b1;
-         end
-        else if(Done_SO)
-          begin
-           Sqrt_enable_SO<=1'b0;
-          end
-       else
-          begin
-           Sqrt_enable_SO<=Sqrt_enable_SO;
-          end
-    end
+   always_ff @(posedge Clk_CI, negedge Rst_RBI) begin   //  generate Sqrt_enable_SO signal
+    if(~Rst_RBI)
+      Sqrt_enable_SO<=1'b0;
+    else if (Kill_SI)
+      Sqrt_enable_SO <= 1'b0;
+    else if(Sqrt_start_SI&&Ready_SO)
+      Sqrt_enable_SO<=1'b1;
+    else if(Done_SO)
+      Sqrt_enable_SO<=1'b0;
+    else
+      Sqrt_enable_SO<=Sqrt_enable_SO;
+  end
 
    logic [5:0]                                                  Crtl_cnt_S;
    logic                                                        Start_dly_S;
