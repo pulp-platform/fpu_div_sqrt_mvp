@@ -70,7 +70,8 @@ module div_sqrt_top_mvp
    logic [C_EXP_FP64:0]                 Exp_b_D;
    logic [C_MANT_FP64:0]                Mant_a_D;
    logic [C_MANT_FP64:0]                Mant_b_D;
-
+   logic                                Full_precision_S, FP32_S, FP64_S, FP16_S, FP16ALT_S;
+   
    logic [C_EXP_FP64+1:0]               Exp_z_D;
    logic [C_MANT_FP64+4:0]                Mant_z_D;
    logic                                Sign_z_D;
