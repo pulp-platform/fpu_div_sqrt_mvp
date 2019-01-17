@@ -215,7 +215,7 @@ module preprocess_mvp
    assign NaN_a_SN = (Start_S&&Ready_SI)?(Exp_a_prenorm_Inf_NaN_S&&(~Mant_a_prenorm_zero_S)):NaN_a_SP;
    assign NaN_b_SN = (Start_S&&Ready_SI)?(Exp_b_prenorm_Inf_NaN_S&&(~Mant_b_prenorm_zero_S)):NaN_b_SP;
    assign SNaN_SN = (Start_S&&Ready_SI) ? ((Mant_a_prenorm_SNaN_S&&NaN_a_SN) | (Mant_b_prenorm_SNaN_S&&NaN_b_SN)) : SNaN_SP;
-    
+
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
@@ -228,8 +228,8 @@ module preprocess_mvp
             NaN_b_SP <='0;
             SNaN_SP <= '0;
           end
-        else 
-         begin 
+        else
+         begin
            Inf_a_SP <=Inf_a_SN;
            Inf_b_SP <=Inf_b_SN;
            Zero_a_SP <=Zero_a_SN;
@@ -253,19 +253,19 @@ module preprocess_mvp
           begin
             Special_case_dly_SBO <= '0;
           end
-       else if((Start_S&&Ready_SI)) 
+       else if((Start_S&&Ready_SI))
          begin
             Special_case_dly_SBO <= Special_case_SBO;
          end
-       else if(Special_case_dly_SBO) 
+       else if(Special_case_dly_SBO)
          begin
          Special_case_dly_SBO <= 1'b1;
          end
       else
-         begin  
+         begin
             Special_case_dly_SBO <= '0;
-         end 
-    end  
+         end
+    end
 
    /////////////////////////////////////////////////////////////////////////////
    // Delay sign for normalization and round                                  //

@@ -184,44 +184,44 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h1b;  //24+4 more iterations for rounding bits
+                         State_ctl_S = 6'h1b;  //24+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=Precision_ctl_S;
+                         State_ctl_S = Precision_ctl_S;
                        end
                    end
                  2'b01: //FP64
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h38;  //53+4 more iterations for rounding bits
+                         State_ctl_S = 6'h38;  //53+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=Precision_ctl_S;
+                         State_ctl_S = Precision_ctl_S;
                        end
                    end
                  2'b10: //FP16
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h0e;  //11+4 more iterations for rounding bits
+                         State_ctl_S = 6'h0e;  //11+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=Precision_ctl_S;
+                         State_ctl_S = Precision_ctl_S;
                        end
                    end
                  2'b11: //FP16ALT
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h0b;  //8+4 more iterations for rounding bits
+                         State_ctl_S = 6'h0b;  //8+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=Precision_ctl_S;
+                         State_ctl_S = Precision_ctl_S;
                        end
                   end
                 endcase
@@ -236,44 +236,44 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h0d;  //24+4 more iterations for rounding bits
+                         State_ctl_S = 6'h0d;  //24+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Two_iteration_unit_S;
+                         State_ctl_S = State_Two_iteration_unit_S;
                        end
                    end
                  2'b01: //FP64
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h1b;  //53+3 more iterations for rounding bits
+                         State_ctl_S = 6'h1b;  //53+3 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Two_iteration_unit_S;
+                         State_ctl_S = State_Two_iteration_unit_S;
                        end
                    end
                  2'b10: //FP16
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h06;  //11+3 more iterations for rounding bits
+                         State_ctl_S = 6'h06;  //11+3 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Two_iteration_unit_S;
+                         State_ctl_S = State_Two_iteration_unit_S;
                        end
                    end
                  2'b11: //FP16ALT
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h05;  //8+4 more iterations for rounding bits
+                         State_ctl_S = 6'h05;  //8+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Two_iteration_unit_S;
+                         State_ctl_S = State_Two_iteration_unit_S;
                        end
                   end
                 endcase
@@ -289,35 +289,35 @@ module control_mvp
                      case(Precision_ctl_S)
                        6'h00:
                          begin
-                           State_ctl_S<=6'h08;  //24+3 more iterations for rounding bits
+                           State_ctl_S = 6'h08;  //24+3 more iterations for rounding bits
                          end
                        6'h06,6'h07,6'h08:
                          begin
-                           State_ctl_S<=6'h02;
+                           State_ctl_S = 6'h02;
                          end
                        6'h09,6'h0a,6'h0b:
                          begin
-                           State_ctl_S<=6'h03;
+                           State_ctl_S = 6'h03;
                          end
                        6'h0c,6'h0d,6'h0e:
                          begin
-                           State_ctl_S<=6'h04;
+                           State_ctl_S = 6'h04;
                          end
                        6'h0f,6'h10,6'h11:
                          begin
-                           State_ctl_S<=6'h05;
+                           State_ctl_S = 6'h05;
                          end
                        6'h12,6'h13,6'h14:
                          begin
-                           State_ctl_S<=6'h06;
+                           State_ctl_S = 6'h06;
                          end
                        6'h15,6'h16,6'h17:
                          begin
-                           State_ctl_S<=6'h07;
+                           State_ctl_S = 6'h07;
                          end
                        default:
                          begin
-                           State_ctl_S<=6'h08;  //24+3 more iterations for rounding bits
+                           State_ctl_S = 6'h08;  //24+3 more iterations for rounding bits
                          end
                      endcase
                    end
@@ -326,75 +326,75 @@ module control_mvp
                      case(Precision_ctl_S)
                        6'h00:
                          begin
-                           State_ctl_S<=6'h12;  //53+4 more iterations for rounding bits
+                           State_ctl_S = 6'h12;  //53+4 more iterations for rounding bits
                          end
                        6'h06,6'h07,6'h08:
                          begin
-                           State_ctl_S<=6'h02;
+                           State_ctl_S = 6'h02;
                          end
                        6'h09,6'h0a,6'h0b:
                          begin
-                           State_ctl_S<=6'h03;
+                           State_ctl_S = 6'h03;
                          end
                        6'h0c,6'h0d,6'h0e:
                          begin
-                           State_ctl_S<=6'h04;
+                           State_ctl_S = 6'h04;
                          end
                        6'h0f,6'h10,6'h11:
                          begin
-                           State_ctl_S<=6'h05;
+                           State_ctl_S = 6'h05;
                          end
                        6'h12,6'h13,6'h14:
                          begin
-                           State_ctl_S<=6'h06;
+                           State_ctl_S = 6'h06;
                          end
                        6'h15,6'h16,6'h17:
                          begin
-                           State_ctl_S<=6'h07;
+                           State_ctl_S = 6'h07;
                          end
                        6'h18,6'h19,6'h1a:
                          begin
-                           State_ctl_S<=6'h08;
+                           State_ctl_S = 6'h08;
                          end
                        6'h1b,6'h1c,6'h1d:
                          begin
-                           State_ctl_S<=6'h09;
+                           State_ctl_S = 6'h09;
                          end
                        6'h1e,6'h1f,6'h20:
                          begin
-                           State_ctl_S<=6'h0a;
+                           State_ctl_S = 6'h0a;
                          end
                        6'h21,6'h22,6'h23:
                          begin
-                           State_ctl_S<=6'h0b;
+                           State_ctl_S = 6'h0b;
                          end
                        6'h24,6'h25,6'h26:
                          begin
-                           State_ctl_S<=6'h0c;
+                           State_ctl_S = 6'h0c;
                          end
                        6'h27,6'h28,6'h29:
                          begin
-                           State_ctl_S<=6'h0d;
+                           State_ctl_S = 6'h0d;
                          end
                        6'h2a,6'h2b,6'h2c:
                          begin
-                           State_ctl_S<=6'h0e;
+                           State_ctl_S = 6'h0e;
                          end
                        6'h2d,6'h2e,6'h2f:
                          begin
-                           State_ctl_S<=6'h0f;
+                           State_ctl_S = 6'h0f;
                          end
                        6'h30,6'h31,6'h32:
                          begin
-                           State_ctl_S<=6'h10;
+                           State_ctl_S = 6'h10;
                          end
                        6'h33,6'h34,6'h35:
                          begin
-                           State_ctl_S<=6'h11;
+                           State_ctl_S = 6'h11;
                          end
                        default:
                          begin
-                           State_ctl_S<=6'h12;  //53+4 more iterations for rounding bits
+                           State_ctl_S = 6'h12;  //53+4 more iterations for rounding bits
                          end
                      endcase
                    end
@@ -403,19 +403,19 @@ module control_mvp
                      case(Precision_ctl_S)
                        6'h00:
                          begin
-                           State_ctl_S<=6'h04;  //12+3 more iterations for rounding bits
+                           State_ctl_S = 6'h04;  //12+3 more iterations for rounding bits
                          end
                        6'h06,6'h07,6'h08:
                          begin
-                           State_ctl_S<=6'h02;
+                           State_ctl_S = 6'h02;
                          end
                        6'h09,6'h0a,6'h0b:
                          begin
-                           State_ctl_S<=6'h03;
+                           State_ctl_S = 6'h03;
                          end
                        default:
                          begin
-                           State_ctl_S<=6'h04;  //12+3 more iterations for rounding bits
+                           State_ctl_S = 6'h04;  //12+3 more iterations for rounding bits
                          end
                      endcase
                    end
@@ -424,15 +424,15 @@ module control_mvp
                      case(Precision_ctl_S)
                        6'h00:
                          begin
-                           State_ctl_S<=6'h03;  //8+4 more iterations for rounding bits
+                           State_ctl_S = 6'h03;  //8+4 more iterations for rounding bits
                          end
                        6'h06,6'h07,6'h08:
                          begin
-                           State_ctl_S<=6'h02;
+                           State_ctl_S = 6'h02;
                          end
                        default:
                          begin
-                           State_ctl_S<=6'h03;  //8+4 more iterations for rounding bits
+                           State_ctl_S = 6'h03;  //8+4 more iterations for rounding bits
                          end
                      endcase
                   end
@@ -448,44 +448,44 @@ module control_mvp
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h06;  //24+4 more iterations for rounding bits
+                         State_ctl_S = 6'h06;  //24+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Four_iteration_unit_S;
+                         State_ctl_S = State_Four_iteration_unit_S;
                        end
                    end
                  2'b01: //FP64
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h0d;  //53+3 more iterations for rounding bits
+                         State_ctl_S = 6'h0d;  //53+3 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Four_iteration_unit_S;
+                         State_ctl_S = State_Four_iteration_unit_S;
                        end
                    end
                  2'b10: //FP16
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h03;  //11+4 more iterations for rounding bits
+                         State_ctl_S = 6'h03;  //11+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Four_iteration_unit_S;
+                         State_ctl_S = State_Four_iteration_unit_S;
                        end
                    end
                  2'b11: //FP16ALT
                    begin
                      if(Full_precision_SO)
                        begin
-                         State_ctl_S<=6'h02;  //8+4 more iterations for rounding bits
+                         State_ctl_S = 6'h02;  //8+4 more iterations for rounding bits
                        end
                      else
                        begin
-                         State_ctl_S<=State_Four_iteration_unit_S;
+                         State_ctl_S = State_Four_iteration_unit_S;
                        end
                   end
                 endcase

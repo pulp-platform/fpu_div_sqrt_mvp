@@ -70,10 +70,9 @@ module div_sqrt_top_mvp
    logic [C_EXP_FP64:0]                 Exp_b_D;
    logic [C_MANT_FP64:0]                Mant_a_D;
    logic [C_MANT_FP64:0]                Mant_b_D;
-   logic                                Full_precision_S, FP32_S, FP64_S, FP16_S, FP16ALT_S;
-   
+
    logic [C_EXP_FP64+1:0]               Exp_z_D;
-   logic [C_MANT_FP64+4:0]                Mant_z_D;
+   logic [C_MANT_FP64+4:0]              Mant_z_D;
    logic                                Sign_z_D;
    logic                                Start_S;
    logic [C_RM-1:0]                     RM_dly_S;
@@ -87,6 +86,12 @@ module div_sqrt_top_mvp
    logic                                NaN_b_S;
    logic                                SNaN_S;
    logic                                Special_case_SB,Special_case_dly_SB;
+
+   logic Full_precision_S;
+   logic FP32_S;
+   logic FP64_S;
+   logic FP16_S;
+   logic FP16ALT_S;
 
 
  preprocess_mvp  preprocess_U0
