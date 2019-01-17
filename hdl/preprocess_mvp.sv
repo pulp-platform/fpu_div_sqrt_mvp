@@ -331,16 +331,14 @@ module preprocess_mvp
    logic [5:0]                  Mant_leadingOne_a, Mant_leadingOne_b;
    logic                        Mant_zero_S_a,Mant_zero_S_b;
 
-   fpu_ff
-   #(
-     .LEN(C_MANT_FP64+1))
-   LOD_Ua
-   (
-     .in_i        ( Mant_a_D          ),
-     .first_one_o ( Mant_leadingOne_a ),
-     .no_ones_o   ( Mant_zero_S_a     )
-   );
-
+  lzc #(
+    .WIDTH ( C_MANT_FP64+1 ),
+    .MODE  ( 1             )
+  ) LOD_Ua (
+    .in_i    ( Mant_a_D          ),
+    .cnt_o   ( Mant_leadingOne_a ),
+    .empty_o ( Mant_zero_S_a     )
+  );
 
    logic [C_MANT_FP64:0]            Mant_a_norm_DN,Mant_a_norm_DP;
 
@@ -373,15 +371,15 @@ module preprocess_mvp
           end
      end
 
-   fpu_ff
-   #(
-     .LEN(C_MANT_FP64+1))
-   LOD_Ub
-   (
-     .in_i        ( Mant_b_D          ),
-     .first_one_o ( Mant_leadingOne_b ),
-     .no_ones_o   ( Mant_zero_S_b     )
-   );
+  lzc #(
+    .WIDTH ( C_MANT_FP64+1 ),
+    .MODE  ( 1             )
+  ) LOD_Ub (
+    .in_i    ( Mant_b_D          ),
+    .cnt_o   ( Mant_leadingOne_b ),
+    .empty_o ( Mant_zero_S_b     )
+  );
+
 
    logic [C_MANT_FP64:0]            Mant_b_norm_DN,Mant_b_norm_DP;
 
