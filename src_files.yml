@@ -4,7 +4,6 @@ div_sqrt_top_mvp:
         hdl/control_mvp.sv,
         hdl/div_sqrt_mvp_wrapper.sv,
         hdl/div_sqrt_top_mvp.sv,
-        hdl/fpu_ff.sv,
         hdl/iteration_div_sqrt_mvp.sv,
         hdl/norm_div_sqrt_mvp.sv,
         hdl/nrbd_nrsc_mvp.sv,
