@@ -3365,23 +3365,23 @@ module control_mvp
       case (Format_sel_S)
         2'b00:
           begin
-            C_BIAS_AONE <=C_BIAS_AONE_FP32;
-            C_HALF_BIAS <=C_HALF_BIAS_FP32;
+            C_BIAS_AONE =C_BIAS_AONE_FP32;
+            C_HALF_BIAS =C_HALF_BIAS_FP32;
           end
         2'b01:
           begin
-            C_BIAS_AONE <=C_BIAS_AONE_FP64;
-            C_HALF_BIAS <=C_HALF_BIAS_FP64;
+            C_BIAS_AONE =C_BIAS_AONE_FP64;
+            C_HALF_BIAS =C_HALF_BIAS_FP64;
           end
         2'b10:
           begin
-            C_BIAS_AONE <=C_BIAS_AONE_FP16;
-            C_HALF_BIAS <=C_HALF_BIAS_FP16;
+            C_BIAS_AONE =C_BIAS_AONE_FP16;
+            C_HALF_BIAS =C_HALF_BIAS_FP16;
           end
         2'b11:
           begin
-            C_BIAS_AONE <=C_BIAS_AONE_FP16ALT;
-            C_HALF_BIAS <=C_HALF_BIAS_FP16ALT;
+            C_BIAS_AONE =C_BIAS_AONE_FP16ALT;
+            C_HALF_BIAS =C_HALF_BIAS_FP16ALT;
           end
         endcase
     end
