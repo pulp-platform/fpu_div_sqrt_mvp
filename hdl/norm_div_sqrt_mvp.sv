@@ -385,27 +385,27 @@ module norm_div_sqrt_mvp
     begin
       if(FP32_SI)
         begin
-          Mant_upper_D <= {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP32], {(C_MANT_FP64-C_MANT_FP32){1'b0}} };
-          Mant_lower_D <= Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-1:C_MANT_FP64-C_MANT_FP32-2];
-          Mant_sticky_bit_D <= | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-3:0];
+          Mant_upper_D = {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP32], {(C_MANT_FP64-C_MANT_FP32){1'b0}} };
+          Mant_lower_D = Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-1:C_MANT_FP64-C_MANT_FP32-2];
+          Mant_sticky_bit_D = | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP32-3:0];
         end
       else if(FP64_SI)
         begin
-          Mant_upper_D <= Mant_res_norm_D[C_MANT_FP64:0];
-          Mant_lower_D <= Mant_forround_D[C_MANT_FP64+4:C_MANT_FP64+3];
-          Mant_sticky_bit_D <= | Mant_forround_D[C_MANT_FP64+3:0];
+          Mant_upper_D = Mant_res_norm_D[C_MANT_FP64:0];
+          Mant_lower_D = Mant_forround_D[C_MANT_FP64+4:C_MANT_FP64+3];
+          Mant_sticky_bit_D = | Mant_forround_D[C_MANT_FP64+3:0];
         end
       else if(FP16_SI)
         begin
-          Mant_upper_D <= {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP16], {(C_MANT_FP64-C_MANT_FP16){1'b0}} };
-          Mant_lower_D <= Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16-1:C_MANT_FP64-C_MANT_FP16-2];
-          Mant_sticky_bit_D <= | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16-3:30];
+          Mant_upper_D = {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP16], {(C_MANT_FP64-C_MANT_FP16){1'b0}} };
+          Mant_lower_D = Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16-1:C_MANT_FP64-C_MANT_FP16-2];
+          Mant_sticky_bit_D = | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16-3:30];
         end
       else  //FP16ALT
       begin
-          Mant_upper_D <= {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP16ALT], {(C_MANT_FP64-C_MANT_FP16ALT){1'b0}} };
-          Mant_lower_D <= Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16ALT-1:C_MANT_FP64-C_MANT_FP16ALT-2];
-          Mant_sticky_bit_D <= | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16ALT-3:30];
+          Mant_upper_D = {Mant_res_norm_D[C_MANT_FP64:C_MANT_FP64-C_MANT_FP16ALT], {(C_MANT_FP64-C_MANT_FP16ALT){1'b0}} };
+          Mant_lower_D = Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16ALT-1:C_MANT_FP64-C_MANT_FP16ALT-2];
+          Mant_sticky_bit_D = | Mant_res_norm_D[C_MANT_FP64-C_MANT_FP16ALT-3:30];
       end
     end
 
@@ -462,19 +462,19 @@ module norm_div_sqrt_mvp
     begin  //
       if(FP32_SI)
           begin
-            Result_DO <={32'hffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP32-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP32]};
+            Result_DO ={32'hffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP32-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP32]};
           end
        else if(FP64_SI)
           begin
-            Result_DO <={Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP64-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:0]};
+            Result_DO ={Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP64-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:0]};
           end
       else if(FP16_SI)
           begin
-            Result_DO <={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16]};
+            Result_DO ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16]};
           end
       else
           begin
-            Result_DO <={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT]};
+            Result_DO ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT]};
           end
     end
 
