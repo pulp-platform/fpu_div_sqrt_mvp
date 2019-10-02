@@ -9,16 +9,3 @@ div_sqrt_top_mvp:
         hdl/nrbd_nrsc_mvp.sv,
         hdl/preprocess_mvp.sv,
 ]
-  jg_slint_top_name: [
-    div_sqrt_mvp_wrapper
-  ]
-  jg_slint_elab_opt: [
-  ]
-  jg_slint_postelab_cmds: [
-  ]
-  jg_slint_clocks: [
-    Clk_CI,
-  ]
-  jg_slint_resets: [
-    ~Rst_RBI,
-  ]
