@@ -40,6 +40,10 @@
 
 import defs_div_sqrt_mvp::*;
 
+`ifdef _VCP // PAK2578
+`define C_PC 6
+`endif
+
 module control_mvp
 
   (//Input
@@ -147,7 +151,11 @@ module control_mvp
    // Precision Control                                                       //
    /////////////////////////////////////////////////////////////////////////////
 
+`ifdef _VCP // PAK2578
+   logic [`C_PC-1:0]                                   Precision_ctl_S;
+`else
    logic [C_PC-1:0]                                   Precision_ctl_S;
+`endif
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
