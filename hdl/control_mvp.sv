@@ -79,6 +79,7 @@ module control_mvp
  //  output logic [3:0]                                 Round_bit_DO,
    output logic [C_EXP_FP64+1:0]                      Exp_result_prenorm_DO
  );
+   parameter C_PC_temp = C_PC;
 
    logic  [C_MANT_FP64+1+4:0]                         Partial_remainder_DN,Partial_remainder_DP; //58bits,r=q+2
    logic  [C_MANT_FP64+4:0]                           Quotient_DP; //57bits
@@ -147,7 +148,7 @@ module control_mvp
    // Precision Control                                                       //
    /////////////////////////////////////////////////////////////////////////////
 
-   logic [C_PC-1:0]                                   Precision_ctl_S;
+   logic [C_PC_temp-1:0]                                   Precision_ctl_S;
    always_ff @(posedge Clk_CI, negedge Rst_RBI)
      begin
         if(~Rst_RBI)
