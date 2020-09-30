@@ -273,28 +273,14 @@ module norm_div_sqrt_mvp
 
       else if(Exp_in_DI[C_EXP_FP64+1])    //minus              //consider format
         begin
-          if(((~Exp_Max_RS_FP32_D[C_EXP_FP32+1])&&FP32_SI) | ((~Exp_Max_RS_FP64_D[C_EXP_FP64+1])&&FP64_SI) | ((~Exp_Max_RS_FP16_D[C_EXP_FP16+1])&&FP16_SI) | ((~Exp_Max_RS_FP16ALT_D[C_EXP_FP16ALT+1])&&FP16ALT_SI) )    //OF EXP<0 after RS
-            begin
-              Div_Zero_S=1'b0;
-              Exp_OF_S=1'b1;
-              Exp_UF_S=1'b0;
-              Mant_res_norm_D='0;
-              Exp_res_norm_D='0;
-              Mant_forround_D='0;
-              Sign_res_D=Sign_in_DI;
-              NV_OP_S = 1'b0;
-            end
-          else                    //denormal
-            begin
-              Div_Zero_S=1'b0;
-              Exp_OF_S=1'b0;
-              Exp_UF_S=1'b1;
-              Mant_res_norm_D={Mant_RS_D[C_MANT_FP64:0]};
-              Exp_res_norm_D='0;
-              Mant_forround_D={Mant_forsticky_D[C_MANT_FP64+4:0]};   //??
-              Sign_res_D=Sign_in_DI;
-              NV_OP_S = 1'b0;
-            end
+          Div_Zero_S=1'b0;
+          Exp_OF_S=1'b0;
+          Exp_UF_S=1'b1;
+          Mant_res_norm_D={Mant_RS_D[C_MANT_FP64:0]};
+          Exp_res_norm_D='0;
+          Mant_forround_D={Mant_forsticky_D[C_MANT_FP64+4:0]};   //??
+          Sign_res_D=Sign_in_DI;
+          NV_OP_S = 1'b0;
         end
 
       else if( (Exp_in_DI[C_EXP_FP32]&&FP32_SI) | (Exp_in_DI[C_EXP_FP64]&&FP64_SI) | (Exp_in_DI[C_EXP_FP16]&&FP16_SI) | (Exp_in_DI[C_EXP_FP16ALT]&&FP16ALT_SI) )            //OF
