@@ -11,7 +11,14 @@ Versions of the IP in the same major relase are "pin-compatible" with each other
 ## [Unreleased]
 
 ### Added
-- Started changelog
+### Changed
+### Fixed
+
+
+## [1.0.4] - 2020-10-05
+
+### Added
+- Started formal changelog
 
 ### Changed
 ### Fixed
