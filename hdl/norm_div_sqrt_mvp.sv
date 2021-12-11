@@ -409,9 +409,11 @@ module norm_div_sqrt_mvp
           C_RM_TRUNC   :
             Mant_roundUp_S = 0;
           C_RM_PLUSINF :
-            Mant_roundUp_S = Mant_rounded_S & ~Sign_in_DI;
-          C_RM_MINUSINF:
             Mant_roundUp_S = Mant_rounded_S & Sign_in_DI;
+          C_RM_MINUSINF:
+            Mant_roundUp_S = Mant_rounded_S & ~Sign_in_DI;
+          C_RM_NEAREST_RMM:
+            Mant_roundUp_S = & Mant_lower_D;
           default          :
             Mant_roundUp_S = 0;
         endcase // case (RM_DI)
