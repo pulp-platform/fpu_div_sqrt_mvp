@@ -125,7 +125,7 @@ module norm_div_sqrt_mvp
            NV_OP_S = SNaN_SI;
          end
 
-      else if(NaN_b_SI)   //if b is NaN, return NaN
+      else if(NaN_b_SI && Div_enable_SI)   //if b is NaN, return NaN
         begin
           Div_Zero_S=1'b0;
           Exp_OF_S=1'b0;
