@@ -187,7 +187,7 @@ module norm_div_sqrt_mvp
        begin
          if(Div_enable_SI&&Zero_b_SI)
            begin
-              Div_Zero_S=1'b1;
+              Div_Zero_S=1'b0;
               Exp_OF_S=1'b0;
               Exp_UF_S=1'b0;
               Mant_res_norm_D={1'b0,C_MANT_NAN_FP64};
