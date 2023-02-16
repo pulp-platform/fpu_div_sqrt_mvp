@@ -408,9 +408,9 @@ module norm_div_sqrt_mvp
             Mant_roundUp_S = Mant_lower_D[1] && ((Mant_lower_D[0] | Mant_sticky_bit_D )| ( (FP32_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP32]) | (FP64_SI&&Mant_upper_D[0]) | (FP16_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP16]) | (FP16ALT_SI&&Mant_upper_D[C_MANT_FP64-C_MANT_FP16ALT]) ) );
           C_RM_TRUNC   :
             Mant_roundUp_S = 0;
-          C_RM_PLUSINF :
-            Mant_roundUp_S = Mant_rounded_S & ~Sign_in_DI;
           C_RM_MINUSINF:
+            Mant_roundUp_S = Mant_rounded_S & ~Sign_in_DI;
+          C_RM_PLUSINF :
             Mant_roundUp_S = Mant_rounded_S & Sign_in_DI;
           default          :
             Mant_roundUp_S = 0;
@@ -444,25 +444,96 @@ module norm_div_sqrt_mvp
   assign Mant_before_format_ctl_D = Full_precision_SI ? Mant_res_round_D : Mant_res_norm_D;
   assign Exp_before_format_ctl_D = Full_precision_SI ? Exp_res_round_D : Exp_res_norm_D;
 
+  logic [C_EXP_FP64+C_MANT_FP64:0] Result_before_round_infinity_S;
+
   always_comb    //NaN Boxing
     begin  //
       if(FP32_SI)
           begin
-            Result_DO ={32'hffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP32-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP32]};
+            Result_before_round_infinity_S ={32'hffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP32-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP32]};
           end
        else if(FP64_SI)
           begin
-            Result_DO ={Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP64-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:0]};
+            Result_before_round_infinity_S ={Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP64-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:0]};
           end
       else if(FP16_SI)
           begin
-            Result_DO ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16]};
+            Result_before_round_infinity_S ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16]};
           end
       else
           begin
-            Result_DO ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT]};
+            Result_before_round_infinity_S ={48'hffff_ffff_ffff,Sign_res_D,Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0],Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT]};
           end
     end
+
+  /////////////////////////////////////////////////////////////////////////////
+  //  Resolve infinity                                                       //
+  /////////////////////////////////////////////////////////////////////////////
+
+  logic is_infinity;
+  always_comb
+    begin
+    is_infinity = 1'b0;
+      if(FP32_SI)
+          begin
+            is_infinity = &Exp_before_format_ctl_D[C_EXP_FP32-1:0] & ~|Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP32];
+          end
+      else if(FP64_SI)
+          begin
+            is_infinity = &Exp_before_format_ctl_D[C_EXP_FP64-1:0] & ~|Mant_before_format_ctl_D[C_MANT_FP64-1:0];
+          end
+      else if(FP16_SI)
+          begin
+            is_infinity = &Exp_before_format_ctl_D[C_EXP_FP16-1:0] & ~|Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16];
+          end
+      else
+          begin
+            is_infinity = &Exp_before_format_ctl_D[C_EXP_FP16ALT-1:0] & ~|Mant_before_format_ctl_D[C_MANT_FP64-1:C_MANT_FP64-C_MANT_FP16ALT];
+          end
+    end
+
+  logic roundup_final_infinity;
+  logic rounddown_final_infinity;
+
+   always_comb
+     begin
+        roundup_final_infinity = 1'b0;
+        rounddown_final_infinity = 1'b0;
+        case (RM_SI)
+          C_RM_TRUNC   : begin
+            if (Exp_OF_S) begin
+              roundup_final_infinity = is_infinity & ~Sign_res_D;
+              rounddown_final_infinity = is_infinity & Sign_res_D;
+            end
+          end
+          C_RM_MINUSINF: begin
+            if (Exp_OF_S) begin
+              roundup_final_infinity = 1'b0;
+              rounddown_final_infinity = is_infinity & ~Sign_res_D;
+            end
+          end
+          C_RM_PLUSINF : begin
+            if (Exp_OF_S) begin
+              roundup_final_infinity = is_infinity & ~Sign_res_D;
+              rounddown_final_infinity = 1'b0;
+            end
+          end
+          default          : begin
+          end
+        endcase
+     end // always_comb begin
+
+  logic  [C_MANT_FP64:0] Mant_final_infinity_roundUp_Vector_S;
+  logic  [C_MANT_FP64:0] Mant_final_infinity_roundDown_Vector_S;
+
+  assign Mant_final_infinity_roundUp_Vector_S={7'h0,(FP16ALT_SI&&roundup_final_infinity),2'h0,(FP16_SI&&roundup_final_infinity),12'h0,(FP32_SI&&roundup_final_infinity),28'h0,(FP64_SI&&roundup_final_infinity)};
+  assign Mant_final_infinity_roundDown_Vector_S={7'h0,(FP16ALT_SI&&rounddown_final_infinity),2'h0,(FP16_SI&&rounddown_final_infinity),12'h0,(FP32_SI&&rounddown_final_infinity),28'h0,(FP64_SI&&rounddown_final_infinity)};
+
+  /////////////////////////////////////////////////////////////////////////////
+  //  Final assignments                                                      //
+  /////////////////////////////////////////////////////////////////////////////
+
+  assign Result_DO = Result_D_Preround + Mant_final_infinity_roundUp_Vector_S - Mant_final_infinity_roundDown_Vector_S;
 
 assign In_Exact_S = (~Full_precision_SI) | Mant_rounded_S;
 assign Fflags_SO = {NV_OP_S,Div_Zero_S,Exp_OF_S,Exp_UF_S,In_Exact_S}; //{NV,DZ,OF,UF,NX}
