@@ -464,7 +464,7 @@ module norm_div_sqrt_mvp
           end
     end
 
-assign In_Exact_S = (~Full_precision_SI) | Mant_rounded_S;
+assign In_Exact_S = (~Full_precision_SI) | Mant_rounded_S | Exp_OF_S | Exp_UF_S;
 assign Fflags_SO = {NV_OP_S,Div_Zero_S,Exp_OF_S,Exp_UF_S,In_Exact_S}; //{NV,DZ,OF,UF,NX}
 
 endmodule // norm_div_sqrt_mvp
