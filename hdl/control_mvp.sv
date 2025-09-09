@@ -2365,6 +2365,13 @@ module control_mvp
 
         end
 
+      for (i=Iteration_unit_num_S+1; i < 4; i++)
+        begin
+          assign Iteration_cell_sum_AMASK_D[i] = '0;
+          assign Sqrt_DO[i] = '0;
+          assign Iteration_cell_carry_D[i] = '0;
+        end
+
   endgenerate
 
 
