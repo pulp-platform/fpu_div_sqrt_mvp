@@ -323,9 +323,8 @@ module preprocess_mvp
    logic [5:0]                  Mant_leadingOne_a, Mant_leadingOne_b;
    logic                        Mant_zero_S_a,Mant_zero_S_b;
 
-  lzc #(
-    .WIDTH ( C_MANT_FP64+1 ),
-    .MODE  ( 1             )
+  cc_lzc #(
+    .Width ( C_MANT_FP64+1 )
   ) LOD_Ua (
     .in_i    ( Mant_a_D          ),
     .cnt_o   ( Mant_leadingOne_a ),
@@ -363,9 +362,8 @@ module preprocess_mvp
           end
      end
 
-  lzc #(
-    .WIDTH ( C_MANT_FP64+1 ),
-    .MODE  ( 1             )
+  cc_lzc #(
+    .Width ( C_MANT_FP64+1 )
   ) LOD_Ub (
     .in_i    ( Mant_b_D          ),
     .cnt_o   ( Mant_leadingOne_b ),
