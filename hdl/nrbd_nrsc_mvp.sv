@@ -62,7 +62,8 @@ module nrbd_nrsc_mvp
    output logic                                Ready_SO,
    output logic                                Done_SO,
    output logic  [C_MANT_FP64+4:0]             Mant_z_DO,
-   output logic [C_EXP_FP64+1:0]               Exp_z_DO
+   output logic [C_EXP_FP64+1:0]               Exp_z_DO,
+   output logic                                Div_R_zero_SO  // final division remainder is exactly zero
     );
 
 
@@ -96,7 +97,8 @@ control_mvp         control_U0
    .Ready_SO                                 (Ready_SO                        ),
    .Done_SO                                  (Done_SO                         ),
    .Mant_result_prenorm_DO                   (Mant_z_DO                       ),
-   .Exp_result_prenorm_DO                    (Exp_z_DO                        )
+   .Exp_result_prenorm_DO                    (Exp_z_DO                        ),
+   .Div_R_zero_SO                            (Div_R_zero_SO                   )
 );
 
 

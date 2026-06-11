@@ -77,7 +77,8 @@ module control_mvp
 
    output logic [C_MANT_FP64+4:0]                     Mant_result_prenorm_DO,
  //  output logic [3:0]                                 Round_bit_DO,
-   output logic [C_EXP_FP64+1:0]                      Exp_result_prenorm_DO
+   output logic [C_EXP_FP64+1:0]                      Exp_result_prenorm_DO,
+   output logic                                       Div_R_zero_SO  // final division remainder is exactly zero
  );
 
    logic  [C_MANT_FP64+1+4:0]                         Partial_remainder_DN,Partial_remainder_DP; //58bits,r=q+2
@@ -2416,6 +2417,22 @@ module control_mvp
              Partial_remainder_DP <= Partial_remainder_DN;
           end
     end
+
+   /////////////////////////////////////////////////////////////////////////////
+   // Final-remainder-zero detection for division                             //
+   /////////////////////////////////////////////////////////////////////////////
+   // The quotient register only ever holds mant+3 (FP32: 27) quotient bits,
+   // so any inexactness below those bits is visible exclusively as a
+   // non-zero final remainder.  IEEE 754-2008 7.6 (inexact) therefore needs
+   // this signal.  For the non-restoring iteration implemented here the
+   // division is exact iff the partial remainder ends at 0 or at -D.  The
+   // working vector keeps the remainder left-aligned with the bits below the
+   // format's mantissa exactly zero, so both states compare for full words.
+   logic [C_MANT_FP64+5:0]   Div_neg_denominator_D;
+   assign Div_neg_denominator_D = ~{Denominator_se_D,4'b0} + 1'b1;
+
+   assign Div_R_zero_SO = (Partial_remainder_DP == '0)
+                        | (Partial_remainder_DP == Div_neg_denominator_D);
 
    logic [C_MANT_FP64+4:0] Quotient_DN;
 
