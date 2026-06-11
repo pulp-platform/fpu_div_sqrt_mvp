@@ -49,6 +49,7 @@ module norm_div_sqrt_mvp
    input logic signed [C_EXP_FP64+1:0]          Exp_in_DI,
    input logic                                  Sign_in_DI,
    input logic                                  Div_enable_SI,
+   input logic                                  Div_R_zero_SI,  // final division remainder is exactly zero
    input logic                                  Sqrt_enable_SI,
    input logic                                  Inf_a_SI,
    input logic                                  Inf_b_SI,
@@ -160,8 +161,12 @@ module norm_div_sqrt_mvp
             Sign_res_D=1'b0;
             NV_OP_S = 1'b1;
           end else begin
+            // inf/finite (and sqrt(+inf)) deliver an exact infinity; no
+            // exception is involved.  Overflow (IEEE 754-2008 7.4) only
+            // applies when a finite intermediate result exceeds the largest
+            // finite number, so OF must not be raised here.
             Div_Zero_S=1'b0;
-            Exp_OF_S=1'b1;
+            Exp_OF_S=1'b0;
             Exp_UF_S=1'b0;
             Mant_res_norm_D= '0;
             Exp_res_norm_D='1;
@@ -173,8 +178,11 @@ module norm_div_sqrt_mvp
 
       else if(Div_enable_SI&&Inf_b_SI)
         begin
+          // finite/inf delivers an exact zero; no exception is involved
+          // (IEEE 754-2008 7.4: overflow requires a finite result that
+          // exceeds the largest finite number after rounding).
           Div_Zero_S=1'b0;
-          Exp_OF_S=1'b1;
+          Exp_OF_S=1'b0;
           Exp_UF_S=1'b0;
           Mant_res_norm_D= '0;
           Exp_res_norm_D='0;
@@ -395,7 +403,17 @@ module norm_div_sqrt_mvp
       end
     end
 
-   assign Mant_rounded_S = (|(Mant_lower_D))| Mant_sticky_bit_D;
+   // The iteration computes only a few quotient bits below the mantissa
+   // (FP32: 3); any inexactness below them is visible exclusively as a
+   // non-zero final division remainder, which must contribute to the sticky
+   // information used for the inexact flag (IEEE 754-2008 7.6).  The special
+   // operand cases do not run the iteration, so their remainder state carries
+   // no meaning and is masked out here.
+   logic                                   Div_Rem_Sticky_S;
+   assign Div_Rem_Sticky_S = Div_enable_SI && (~Div_R_zero_SI)
+        && ~(NaN_a_SI | NaN_b_SI | Inf_a_SI | Inf_b_SI | Zero_a_SI | Zero_b_SI);
+
+   assign Mant_rounded_S = (|(Mant_lower_D))| Mant_sticky_bit_D | Div_Rem_Sticky_S;
 
 
 

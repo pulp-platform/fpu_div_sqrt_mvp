@@ -92,6 +92,7 @@ module div_sqrt_top_mvp
    logic FP64_S;
    logic FP16_S;
    logic FP16ALT_S;
+   logic Div_R_zero_S;
 
 
  preprocess_mvp  preprocess_U0
@@ -149,7 +150,8 @@ module div_sqrt_top_mvp
    .Ready_SO              (Ready_SO           ),
    .Done_SO               (Done_SO            ),
    .Exp_z_DO              (Exp_z_D            ),
-   .Mant_z_DO             (Mant_z_D           )
+   .Mant_z_DO             (Mant_z_D           ),
+   .Div_R_zero_SO         (Div_R_zero_S       )
     );
 
 
@@ -159,6 +161,7 @@ module div_sqrt_top_mvp
    .Exp_in_DI             (Exp_z_D            ),
    .Sign_in_DI            (Sign_z_D           ),
    .Div_enable_SI         (Div_enable_S       ),
+   .Div_R_zero_SI         (Div_R_zero_S       ),
    .Sqrt_enable_SI        (Sqrt_enable_S      ),
    .Inf_a_SI              (Inf_a_S            ),
    .Inf_b_SI              (Inf_b_S            ),
