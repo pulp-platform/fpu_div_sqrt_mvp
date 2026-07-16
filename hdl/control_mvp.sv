@@ -1019,6 +1019,9 @@ module control_mvp
 
   always_comb begin  // the intermediate operands for sqrt
 
+  // Default: the highest sqrt lane is unused unless 4 iteration units are active
+  Q_sqrt3 = '0;
+
   case(Iteration_unit_num_S)
     2'b00:
       begin
